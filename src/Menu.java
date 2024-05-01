@@ -5,40 +5,44 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
-public class Menu {	
+public class Menu {
 	public static void exibirMenu() {
-		
-		int resposta;
-		String[] lista= {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Gerar relatório","Sair"};
-		JComboBox opcoes = new JComboBox(lista);	
-		
+		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Gerar relatório", "Sair"};
+		String resposta;
+
 		do {
-			JOptionPane.showMessageDialog(null, opcoes);
-			resposta=opcoes.getSelectedIndex();
-			
-			switch (resposta) { //Adicionando um novo projeto à lista de projetos da classe GestaoProjetos				
-			case 0:
-				criarProjeto();				
-				break;
-			 case 1: //Adicionando uma tarefa a um projeto já adicionado à lista de projetos da classe GestaoProjetos				
-				adicionarTarefa();
-				break;
-			 case 2: //Adicionando uma pessoa a um projeto				
-				adicionarPessoa();
-				break;
-			case 3: //Alocando uma tarefa para uma pessoa na lista de tarefas alocadas de um projeto				
-				alocarTarefa();
-				break;
-			case 4: //Adicionando um recurso a um projeto já adicionado à lista de projetos da classe GestaoProjetos				
-				adicionarRecurso();
-				break;
-			case 5:							
-				gerarRelatorio();
-			}			
-				
-		}while(resposta!=6);
-		
-		
+			resposta = (String) JOptionPane.showInputDialog(
+					null,
+					"Selecione uma opção",
+					"Gestão de Projetos",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					lista,
+					lista[0]);
+
+			if (resposta != null) {
+				switch (resposta) {
+					case "Criar projeto":
+						criarProjeto();
+						break;
+					case "Adicionar tarefa":
+						adicionarTarefa();
+						break;
+					case "Adicionar pessoa ao projeto":
+						adicionarPessoa();
+						break;
+					case "Alocar tarefa":
+						alocarTarefa();
+						break;
+					case "Alocar recurso":
+						adicionarRecurso();
+						break;
+					case "Gerar relatório":
+						gerarRelatorio();
+						break;
+				}
+			}
+		} while (resposta != null && !resposta.equals("Sair"));
 	}
 
 	private static void gerarRelatorio() {
