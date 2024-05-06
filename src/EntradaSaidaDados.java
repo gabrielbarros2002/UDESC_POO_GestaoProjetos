@@ -1,9 +1,13 @@
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EntradaSaidaDados {
-	
-	
+
+	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 	public static String retornarTexto(String mensagem, String titulo) {
 		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
 	}
@@ -15,13 +19,26 @@ public class EntradaSaidaDados {
 	public static double retornarReal(String mensagem, String titulo) {
 		return Double.parseDouble(JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE));
 	}
+
+	public static LocalDate retornarData(String mensagem, String titulo) {
+		LocalDate date = null;
+		String userInput = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+
+		try {
+			date = LocalDate.parse(userInput, dateFormatter);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Formato de data inválido!");
+			e.printStackTrace();
+		}
+		return date;
+	}
 	
 	public static int escolherProjeto(JComboBox<String> listaDeProjetos) {
 		JOptionPane.showInternalMessageDialog(null, listaDeProjetos, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
 		return listaDeProjetos.getSelectedIndex();
 	}
 
-	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {		
+	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {
 		JOptionPane.showMessageDialog(null, listaDeTarefas);
 		return listaDeTarefas.getSelectedIndex();
 	}
@@ -35,7 +52,7 @@ public class EntradaSaidaDados {
 		return listaDePrioridades.getSelectedIndex();
 	}
 	
-	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {		
+	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {
 		JOptionPane.showMessageDialog(null, listaDePessoas);
 		return listaDePessoas.getSelectedIndex();
 	}

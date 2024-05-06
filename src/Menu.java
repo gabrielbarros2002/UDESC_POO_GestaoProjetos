@@ -55,9 +55,12 @@ public class Menu {
 					+ "\n 1 - Dados gerais do projeto"
 					+ "\n 2 - Tarefas alocadas de um projeto", "Relatório");
 				
-				int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+				int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 				Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
-				int posicaoSolicitante= EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
+				if(projetoEscolhido.getListaDePessoas().isEmpty()) {
+					
+				}
+				int posicaoSolicitante = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
 				Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);	
 				LocalDate dataSolcitacao = LocalDate.now();		
 				String data = dataSolcitacao.toString();
@@ -80,7 +83,7 @@ public class Menu {
 	}
 
 	private static void adicionarRecurso() {
-		if(GestaoProjetos.retornarListaProjetos()==null) {
+		if(GestaoProjetos.retornarListaProjetos() == null) {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
 		}else {	
@@ -154,8 +157,14 @@ public class Menu {
 	private static void criarProjeto() {
 		String titulo = EntradaSaidaDados.retornarTexto("Informe o título do projeto", "Adicionar Projeto");
 		String cliente = EntradaSaidaDados.retornarTexto("Informe o cliente do projeto", "Adicionar Projeto");
-		String dataInicial = EntradaSaidaDados.retornarTexto("Informe a data inicial do projeto", "Adicionar Projeto");
-		String dataFinal = EntradaSaidaDados.retornarTexto("Informe a data final do projeto", "Adicionar Projeto");
+		LocalDate dataInicial = null;
+		LocalDate dataFinal = null;
+		do {
+			 dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (DD/MM/AAAA)", "Adicionar Projeto");
+		} while(dataInicial == null);
+		do {
+			dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (DD/MM/AAAA)", "Adicionar Projeto");
+		} while(dataFinal == null);
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
 		GestaoProjetos.adicionarProjeto(p);
 	}

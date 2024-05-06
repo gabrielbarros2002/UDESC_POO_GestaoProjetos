@@ -1,5 +1,6 @@
 import java.awt.Component;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -10,15 +11,15 @@ public class Projeto {
 	private String cliente;
 	private ArrayList<Recurso> listaDeRecursos = new ArrayList<Recurso>();
 	private ArrayList<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
-	private String dataInicial;
-	private String dataFinal;
+	private LocalDate dataInicial;
+	private LocalDate dataFinal;
 	private ArrayList<Tarefa> listaDeTarefas = new ArrayList<Tarefa>();
 	private ArrayList<TarefaAlocada> listaDeTarefasAlocadas = new ArrayList<TarefaAlocada>();
 	private int status;
 	
 	//Não é necessário representar no diagrama os getters and setters
 	
-	Projeto (String titulo, String cliente, String dataInicial, String dataFinal){
+	Projeto (String titulo, String cliente, LocalDate dataInicial, LocalDate dataFinal){
 		this.titulo=titulo;
 		this.cliente=cliente;
 		this.dataInicial=dataInicial;
@@ -57,19 +58,19 @@ public class Projeto {
 		this.listaDePessoas = listaDePessoas;
 	}
 
-	public String getDataInicial() {
+	public LocalDate getDataInicial() {
 		return dataInicial;
 	}
 
-	public void setDataInicial(String dataInicial) {
+	public void setDataInicial(LocalDate dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public String getDataFinal() {
+	public LocalDate getDataFinal() {
 		return dataFinal;
 	}
 
-	public void setDataFinal(String dataFinal) {
+	public void setDataFinal(LocalDate dataFinal) {
 		this.dataFinal = dataFinal;
 	}
 
@@ -117,27 +118,29 @@ public class Projeto {
 	}
 
 	public JComboBox<String> retornarListaTarefas() {
-		JComboBox<String> lista = new JComboBox<String>();	
-		if(this.listaDeTarefas.size()>0) {	
-			for(Tarefa t : listaDeTarefas) {			
-				lista.addItem(t.getNome());
-			}
-		}else {
+		JComboBox<String> lista = new JComboBox<String>();
+
+		if(listaDeTarefas.isEmpty()) {
 			return null;
 		}
-		return lista;	
+		for(Tarefa t : listaDeTarefas) {
+			lista.addItem(t.getNome());
+		}
+
+		return lista;
 	}
 
 	public JComboBox<String> retornarListaPessoas() {
-		JComboBox<String> lista = new JComboBox<String>();	
-		if(this.listaDePessoas.size()>0) {
-			for(Pessoa p : this.listaDePessoas) {	
-				lista.addItem(p.getNome());
-			}
-		}else {
+		JComboBox<String> lista = new JComboBox<String>();
+
+		if(listaDePessoas.isEmpty()) {
 			return null;
 		}
-		return lista;	
+		for(Pessoa p : this.listaDePessoas) {
+			lista.addItem(p.getNome());
+		}
+
+		return lista;
 	}
 
 	public Tarefa retornarTarefa(int posicaoTarefa) {
