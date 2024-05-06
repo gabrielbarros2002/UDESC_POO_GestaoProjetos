@@ -24,9 +24,9 @@ public class Tarefa {
 	}
 
 	Tarefa(String nome, String prazo, int prioridade){
-		this.nome=nome;
-		this.prazo=prazo;
-		this.prioridade=prioridade;
+		this.nome = nome;
+		this.prazo = prazo;
+		this.prioridade = prioridade;
 		this.status = 1;
 	}
 

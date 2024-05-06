@@ -25,6 +25,15 @@ public class EntradaSaidaDados {
 		JOptionPane.showMessageDialog(null, listaDeTarefas);
 		return listaDeTarefas.getSelectedIndex();
 	}
+
+	public static int escolherPrioridade() {
+		JComboBox<String> listaDePrioridades = new JComboBox<>();
+		for(int i = 1; i <= 5; i++) {
+			listaDePrioridades.addItem("Nível " + i);
+		}
+		JOptionPane.showMessageDialog(null, listaDePrioridades, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
+		return listaDePrioridades.getSelectedIndex();
+	}
 	
 	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {		
 		JOptionPane.showMessageDialog(null, listaDePessoas);
@@ -37,7 +46,7 @@ public class EntradaSaidaDados {
 	}
 
 	public static void mostrarRelatorio(String dadosRelatorio) {
-		JOptionPane.showMessageDialog(null, "Relatório\n"+dadosRelatorio);		
+		JOptionPane.showMessageDialog(null, "Relatório\n" + dadosRelatorio);
 	}
 	
 

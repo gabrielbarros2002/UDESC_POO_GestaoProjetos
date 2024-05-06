@@ -1,11 +1,13 @@
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 public class Menu {
+
 	public static void exibirMenu() {
 		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Gerar relatório", "Sair"};
 		String resposta;
@@ -47,7 +49,7 @@ public class Menu {
 
 	private static void gerarRelatorio() {
 		
-		if(GestaoProjetos.retornarListaProjetos()!=null) {
+		if(GestaoProjetos.retornarListaProjetos() != null) {
 			
 			int tipo = EntradaSaidaDados.retornarInteiro("Informe o tipo de relatório desejado:"
 					+ "\n 1 - Dados gerais do projeto"
@@ -103,7 +105,7 @@ public class Menu {
 			if(projetoEscolhido.retornarListaTarefas() == null) {
 				EntradaSaidaDados.mostrarMensagem("Adicione tarefas ao projeto", "Aviso");
 				adicionarTarefa();
-			}else {
+			} else {
 				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
 				 tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 			}
@@ -124,12 +126,12 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
 		} else {
+			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", "Adicionar Pessoa");
 			String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", "Adicionar Pessoa");
 			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
-			Pessoa p = new Pessoa(nome, sobrenome, cargo);	
-			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			Pessoa p = new Pessoa(nome, sobrenome, cargo);
 			projetoEscolhido.adicionarPessoa(p);
 		}
 	}
@@ -143,7 +145,7 @@ public class Menu {
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
 			String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
-			int prioridade = EntradaSaidaDados.retornarInteiro("Informe a prioridade da tarefa", "Adicionar Tarefa");
+			int prioridade = EntradaSaidaDados.escolherPrioridade();
 			Tarefa t = new Tarefa(nome, prazo, prioridade);
 			projetoEscolhido.adicionarTarefa(t);
 		}
@@ -155,7 +157,7 @@ public class Menu {
 		String dataInicial = EntradaSaidaDados.retornarTexto("Informe a data inicial do projeto", "Adicionar Projeto");
 		String dataFinal = EntradaSaidaDados.retornarTexto("Informe a data final do projeto", "Adicionar Projeto");
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
-		GestaoProjetos.adicionarProjeto(p);				
+		GestaoProjetos.adicionarProjeto(p);
 	}
 
 }
