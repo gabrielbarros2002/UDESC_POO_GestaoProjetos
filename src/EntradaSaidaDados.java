@@ -4,20 +4,20 @@ import javax.swing.JOptionPane;
 public class EntradaSaidaDados {
 	
 	
-	public static String retornarTexto(String mensagem) {		
-		return JOptionPane.showInputDialog(mensagem);
+	public static String retornarTexto(String mensagem, String titulo) {
+		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
 	}
 	
-	public static int retornarInteiro(String mensagem) {		
-		return Integer.parseInt(JOptionPane.showInputDialog(mensagem));
+	public static int retornarInteiro(String mensagem, String titulo) {
+		return Integer.parseInt(JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE));
 	}
 	
-	public static double retornarReal(String mensagem) {		
-		return Double.parseDouble(JOptionPane.showInputDialog(mensagem));
+	public static double retornarReal(String mensagem, String titulo) {
+		return Double.parseDouble(JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE));
 	}
 	
-	public static int  escolherProjeto(JComboBox<String> listaDeProjetos) {		
-		JOptionPane.showInternalMessageDialog(null, listaDeProjetos, "Lista de projetos", 1, null);
+	public static int escolherProjeto(JComboBox<String> listaDeProjetos) {
+		JOptionPane.showInternalMessageDialog(null, listaDeProjetos, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
 		return listaDeProjetos.getSelectedIndex();
 	}
 
@@ -31,8 +31,8 @@ public class EntradaSaidaDados {
 		return listaDePessoas.getSelectedIndex();
 	}
 
-	public static void mostrarMensagem(String mensagem) {
-		JOptionPane.showMessageDialog(null, mensagem);
+	public static void mostrarMensagem(String mensagem, String titulo) {
+		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 

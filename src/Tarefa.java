@@ -27,6 +27,7 @@ public class Tarefa {
 		this.nome=nome;
 		this.prazo=prazo;
 		this.prioridade=prioridade;
+		this.status = 1;
 	}
-	
+
 }

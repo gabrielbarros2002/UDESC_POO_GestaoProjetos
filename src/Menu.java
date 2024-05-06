@@ -51,7 +51,7 @@ public class Menu {
 			
 			int tipo = EntradaSaidaDados.retornarInteiro("Informe o tipo de relatório desejado:"
 					+ "\n 1 - Dados gerais do projeto"
-					+ "\n 2 - Tarefas alocadas de um projeto");
+					+ "\n 2 - Tarefas alocadas de um projeto", "Relatório");
 				
 				int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 				Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
@@ -69,8 +69,8 @@ public class Menu {
 					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido));
 					break;	
 				}
-		}else {
-			EntradaSaidaDados.mostrarMensagem("Adicione um projeto");
+		} else {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
 		}
 		
@@ -79,40 +79,40 @@ public class Menu {
 
 	private static void adicionarRecurso() {
 		if(GestaoProjetos.retornarListaProjetos()==null) {
-			EntradaSaidaDados.mostrarMensagem("Adicione um projeto");
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
 		}else {	
 			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso");
-			double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso");
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso", "Recurso");
+			double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso", "Recurso");
 			Recurso recurso = new Recurso(nome, valor);
 			projetoEscolhido.adicionarRecurso(recurso);
 		}
 	}
 
 	private static void alocarTarefa() {
-		Pessoa pessoaEscolhida=null;
-		Tarefa tarefaEscolhida=null;
-		if(GestaoProjetos.retornarListaProjetos()==null) {
-			EntradaSaidaDados.mostrarMensagem("Adicione um projeto");
+		Pessoa pessoaEscolhida = null;
+		Tarefa tarefaEscolhida = null;
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
-		}else {	
-			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+		} else {
+			int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
-			if(projetoEscolhido.retornarListaTarefas()==null) {
-				EntradaSaidaDados.mostrarMensagem("Adicione tarefas ao projeto");
+			if(projetoEscolhido.retornarListaTarefas() == null) {
+				EntradaSaidaDados.mostrarMensagem("Adicione tarefas ao projeto", "Aviso");
 				adicionarTarefa();
 			}else {
 				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
 				 tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 			}
 			
-			if(projetoEscolhido.retornarListaPessoas()==null) {
-				EntradaSaidaDados.mostrarMensagem("Adicione pessoas ao projeto");
+			if(projetoEscolhido.retornarListaPessoas() == null) {
+				EntradaSaidaDados.mostrarMensagem("Adicione pessoas ao projeto", "Aviso");
 				adicionarPessoa();
 			}else {
-				int posicaoPessoa= EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
+				int posicaoPessoa = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
 				 pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);				
 			}
 			projetoEscolhido.alocarTarefa(pessoaEscolhida, tarefaEscolhida);
@@ -120,13 +120,13 @@ public class Menu {
 	}
 
 	private static void adicionarPessoa() {
-		if(GestaoProjetos.retornarListaProjetos()==null) {
-			EntradaSaidaDados.mostrarMensagem("Adicione um projeto");
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
-		}else {	
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa");
-			String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa");
-			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto"));				
+		} else {
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", "Adicionar Pessoa");
+			String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", "Adicionar Pessoa");
+			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
 			Pessoa p = new Pessoa(nome, sobrenome, cargo);	
 			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
@@ -135,25 +135,25 @@ public class Menu {
 	}
 
 	private static void adicionarTarefa() {			
-		if(GestaoProjetos.retornarListaProjetos()==null) {
-			EntradaSaidaDados.mostrarMensagem("Adicione um projeto");
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
-		}else {	
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa");
-			String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa");
-			int prioridade = EntradaSaidaDados.retornarInteiro("Informe a prioridade da tarefa");				
-			Tarefa t = new Tarefa(nome, prazo, prioridade);	
-			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+		} else {
+			int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
+			String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
+			int prioridade = EntradaSaidaDados.retornarInteiro("Informe a prioridade da tarefa", "Adicionar Tarefa");
+			Tarefa t = new Tarefa(nome, prazo, prioridade);
 			projetoEscolhido.adicionarTarefa(t);
 		}
 	}
 
 	private static void criarProjeto() {
-		String titulo=EntradaSaidaDados.retornarTexto("Informe o título do projeto");
-		String cliente=EntradaSaidaDados.retornarTexto("Informe o cliente do projeto");
-		String dataInicial = EntradaSaidaDados.retornarTexto("Informe a data inicial do projeto");
-		String dataFinal = EntradaSaidaDados.retornarTexto("Informe a data final do projeto");
+		String titulo = EntradaSaidaDados.retornarTexto("Informe o título do projeto", "Adicionar Projeto");
+		String cliente = EntradaSaidaDados.retornarTexto("Informe o cliente do projeto", "Adicionar Projeto");
+		String dataInicial = EntradaSaidaDados.retornarTexto("Informe a data inicial do projeto", "Adicionar Projeto");
+		String dataFinal = EntradaSaidaDados.retornarTexto("Informe a data final do projeto", "Adicionar Projeto");
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
 		GestaoProjetos.adicionarProjeto(p);				
 	}
