@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 public class Menu {
 
 	public static void exibirMenu() {
-		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Gerar relatório", "Sair"};
+		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Gerar relatório", "Sair"};
 		String resposta;
 
 		do {
@@ -39,6 +39,9 @@ public class Menu {
 					case "Alocar recurso":
 						adicionarRecurso();
 						break;
+					case "Excluir recurso":
+						excluirRecurso();
+						break;
 					case "Gerar relatório":
 						gerarRelatorio();
 						break;
@@ -58,17 +61,24 @@ public class Menu {
 				int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 				Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 				if(projetoEscolhido.getListaDePessoas().isEmpty()) {
-					
+					int resposta = JOptionPane.showConfirmDialog(null,
+							"Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?", "Aviso", JOptionPane.YES_NO_OPTION);
+
+					if(resposta == JOptionPane.YES_NO_OPTION) {
+						adicionarPessoa(projetoEscolhido);
+					} else {
+						exibirMenu();
+					}
 				}
 				int posicaoSolicitante = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
 				Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);	
-				LocalDate dataSolcitacao = LocalDate.now();		
+				LocalDate dataSolcitacao = LocalDate.now();
 				String data = dataSolcitacao.toString();
 				RelatorioGeral relatorio = new RelatorioGeral(data, solicitante);
 				
 				switch (tipo) {			
 				case 1:			
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido, solicitante));
 					break;
 				case 2:					
 					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido));
@@ -86,7 +96,7 @@ public class Menu {
 		if(GestaoProjetos.retornarListaProjetos() == null) {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
-		}else {	
+		} else {
 			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso", "Recurso");
@@ -106,19 +116,31 @@ public class Menu {
 			int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			if(projetoEscolhido.retornarListaTarefas() == null) {
-				EntradaSaidaDados.mostrarMensagem("Adicione tarefas ao projeto", "Aviso");
-				adicionarTarefa();
+				int resposta = JOptionPane.showConfirmDialog(null,
+						"Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?", "Aviso", JOptionPane.YES_NO_OPTION);
+
+				if(resposta == JOptionPane.YES_NO_OPTION) {
+					adicionarTarefa(projetoEscolhido);
+				} else {
+					exibirMenu();
+				}
 			} else {
 				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
-				 tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
+				tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 			}
-			
+
 			if(projetoEscolhido.retornarListaPessoas() == null) {
-				EntradaSaidaDados.mostrarMensagem("Adicione pessoas ao projeto", "Aviso");
-				adicionarPessoa();
-			}else {
+				int resposta = JOptionPane.showConfirmDialog(null,
+						"Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?", "Aviso", JOptionPane.YES_NO_OPTION);
+
+				if(resposta == JOptionPane.YES_NO_OPTION) {
+					adicionarPessoa(projetoEscolhido);
+				} else {
+					exibirMenu();
+				}
+			} else {
 				int posicaoPessoa = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
-				 pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);				
+				pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);
 			}
 			projetoEscolhido.alocarTarefa(pessoaEscolhida, tarefaEscolhida);
 		}
@@ -139,6 +161,14 @@ public class Menu {
 		}
 	}
 
+	private static void adicionarPessoa(Projeto projeto) {
+		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", "Adicionar Pessoa");
+		String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", "Adicionar Pessoa");
+		Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
+		Pessoa pessoa = new Pessoa(nome, sobrenome, cargo);
+		projeto.adicionarPessoa(pessoa);
+	}
+
 	private static void adicionarTarefa() {			
 		if(GestaoProjetos.retornarListaProjetos() == null) {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
@@ -149,9 +179,17 @@ public class Menu {
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
 			String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
 			int prioridade = EntradaSaidaDados.escolherPrioridade();
-			Tarefa t = new Tarefa(nome, prazo, prioridade);
-			projetoEscolhido.adicionarTarefa(t);
+			Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
+			projetoEscolhido.adicionarTarefa(tarefa);
 		}
+	}
+
+	private static void adicionarTarefa(Projeto projeto) {
+		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
+		String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
+		int prioridade = EntradaSaidaDados.escolherPrioridade();
+		Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
+		projeto.adicionarTarefa(tarefa);
 	}
 
 	private static void criarProjeto() {
@@ -168,5 +206,25 @@ public class Menu {
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
 		GestaoProjetos.adicionarProjeto(p);
 	}
+
+	private static void excluirRecurso() {
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
+			criarProjeto();
+		} else {
+			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			if(projetoEscolhido.retornarListaRecursos() == null) {
+				EntradaSaidaDados.mostrarMensagem("Não há recursos para excluir!", "Aviso");
+				return;
+			}
+			int posicaoRecurso = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaRecursos());
+			Recurso recursoEscolhido = projetoEscolhido.retornarRecurso(posicaoRecurso);
+			projetoEscolhido.excluirRecurso(recursoEscolhido);
+			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso", "Sucesso");
+		}
+	}
+
+//	private static void
 
 }

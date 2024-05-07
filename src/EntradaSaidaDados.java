@@ -9,7 +9,12 @@ public class EntradaSaidaDados {
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public static String retornarTexto(String mensagem, String titulo) {
-		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		String texto = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+
+		if(texto == null) {
+			Menu.exibirMenu();
+		}
+		return texto;
 	}
 	
 	public static int retornarInteiro(String mensagem, String titulo) {
@@ -55,6 +60,11 @@ public class EntradaSaidaDados {
 	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {
 		JOptionPane.showMessageDialog(null, listaDePessoas);
 		return listaDePessoas.getSelectedIndex();
+	}
+
+	public static int escolherRecurso(JComboBox<String> listaDeRecursos) {
+		JOptionPane.showMessageDialog(null, listaDeRecursos);
+		return listaDeRecursos.getSelectedIndex();
 	}
 
 	public static void mostrarMensagem(String mensagem, String titulo) {

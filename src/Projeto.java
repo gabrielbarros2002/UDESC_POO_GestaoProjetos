@@ -101,6 +101,10 @@ public class Projeto {
 	public void adicionarRecurso(Recurso recurso) {
 		this.listaDeRecursos.add(recurso);
 	}
+
+	public void excluirRecurso(Recurso recurso) {
+		this.listaDeRecursos.remove(recurso);
+	}
 	
 	public void adicionarPessoa(Pessoa pessoa) {
 		this.listaDePessoas.add(pessoa);
@@ -143,6 +147,19 @@ public class Projeto {
 		return lista;
 	}
 
+	public JComboBox<String> retornarListaRecursos() {
+		JComboBox<String> lista = new JComboBox<String>();
+
+		if(listaDeRecursos.isEmpty()) {
+			return null;
+		}
+		for(Recurso recurso : listaDeRecursos) {
+			lista.addItem(recurso.getNome());
+		}
+
+		return lista;
+	}
+
 	public Tarefa retornarTarefa(int posicaoTarefa) {
 		return this.listaDeTarefas.get(posicaoTarefa);
 	}
@@ -150,7 +167,9 @@ public class Projeto {
 	public Pessoa retornarPessoa(int posicaoPessoa) {
 		return this.listaDePessoas.get(posicaoPessoa);
 	}
-	
-	
+
+	public Recurso retornarRecurso(int posicaoRecurso) {
+		return this.listaDeRecursos.get(posicaoRecurso);
+	}
 
 }

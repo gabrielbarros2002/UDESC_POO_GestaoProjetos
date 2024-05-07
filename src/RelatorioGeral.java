@@ -17,12 +17,13 @@ public class RelatorioGeral extends Relatorio{
 		return dados;
 	}
 	
-	public String gerarRelatorioDadosGerais(Projeto projeto) {
+	public String gerarRelatorioDadosGerais(Projeto projeto, Pessoa solicitante) {
 		String dados = "Dados do projeto " + projeto.getTitulo();
-		dados += "\n Data inicial " + projeto.getDataInicial();
-		dados += "\n Data final " + projeto.getDataFinal();
-		dados += "\n Cliente " + projeto.getCliente();
-		dados += "\n Status do projeto " + projeto.getStatus();
+		dados += "\n Data inicial: " + projeto.getDataInicial();
+		dados += "\n Data final: " + projeto.getDataFinal();
+		dados += "\n Cliente: " + projeto.getCliente();
+		dados += "\n Status do projeto: " + projeto.getStatus();
+		dados += "\n Solicitante: " + solicitante.getNome();
 		return dados;
 	}
 	
