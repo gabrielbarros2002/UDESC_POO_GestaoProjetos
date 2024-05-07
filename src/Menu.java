@@ -8,8 +8,9 @@ import javax.swing.JOptionPane;
 
 public class Menu {
 
+
 	public static void exibirMenu() {
-		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Gerar relatório", "Sair"};
+		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Alterar status do projeto", "Gerar relatório", "Sair"};
 		String resposta;
 
 		do {
@@ -41,6 +42,9 @@ public class Menu {
 						break;
 					case "Excluir recurso":
 						excluirRecurso();
+						break;
+					case "Alterar status do projeto":
+						alterarStatusProjeto();
 						break;
 					case "Gerar relatório":
 						gerarRelatorio();
@@ -204,6 +208,7 @@ public class Menu {
 			dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (DD/MM/AAAA)", "Adicionar Projeto");
 		} while(dataFinal == null);
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
+		p.setStatus(1); // Status 1 - Em andamento
 		GestaoProjetos.adicionarProjeto(p);
 	}
 
@@ -225,6 +230,16 @@ public class Menu {
 		}
 	}
 
-//	private static void
+	private static void alterarStatusProjeto () {
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
+			criarProjeto();
+		} else {
+			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			int statusEscolhido = EntradaSaidaDados.escolherStatusProjeto();
+			projetoEscolhido.setStatus(statusEscolhido);
+		}
+	}
 
 }

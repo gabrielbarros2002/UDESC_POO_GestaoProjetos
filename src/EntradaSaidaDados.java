@@ -1,6 +1,5 @@
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -75,6 +74,12 @@ public class EntradaSaidaDados {
 	public static void mostrarRelatorio(String dadosRelatorio) {
 		JOptionPane.showMessageDialog(null, "Relatório\n" + dadosRelatorio);
 	}
-	
 
+	public static int escolherStatusProjeto() {
+		JComboBox<String> listaStatus = new JComboBox<>();
+		listaStatus.addItem("1 - Em andamento");
+		listaStatus.addItem("1 - Finalizado");
+		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
+		return listaStatus.getSelectedIndex();
+	}
 }
