@@ -10,7 +10,7 @@ public class Menu {
 
 
 	public static void exibirMenu() {
-		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Alterar status do projeto", "Gerar relatório", "Sair"};
+		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Alterar status do projeto", "Alterar data final do projeto", "Alterar status da tarefa", "Gerar relatório", "Sair"};
 		String resposta;
 
 		do {
@@ -45,6 +45,12 @@ public class Menu {
 						break;
 					case "Alterar status do projeto":
 						alterarStatusProjeto();
+						break;
+					case "Alterar data final do projeto":
+						alterarDataFinalProjeto();
+						break;
+					case "Alterar status da tarefa":
+						alterarStatusTarefa();
 						break;
 					case "Gerar relatório":
 						gerarRelatorio();
@@ -126,7 +132,7 @@ public class Menu {
 				if(resposta == JOptionPane.YES_NO_OPTION) {
 					adicionarTarefa(projetoEscolhido);
 				} else {
-					exibirMenu();
+					return;
 				}
 			} else {
 				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
@@ -140,7 +146,7 @@ public class Menu {
 				if(resposta == JOptionPane.YES_NO_OPTION) {
 					adicionarPessoa(projetoEscolhido);
 				} else {
-					exibirMenu();
+					return;
 				}
 			} else {
 				int posicaoPessoa = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
@@ -198,9 +204,15 @@ public class Menu {
 
 	private static void criarProjeto() {
 		String titulo = EntradaSaidaDados.retornarTexto("Informe o título do projeto", "Adicionar Projeto");
+		if(titulo == null){
+			return;
+		}
 		String cliente = EntradaSaidaDados.retornarTexto("Informe o cliente do projeto", "Adicionar Projeto");
-		LocalDate dataInicial = null;
-		LocalDate dataFinal = null;
+		if(cliente == null) {
+			return;
+		}
+		LocalDate dataInicial;
+		LocalDate dataFinal;
 		do {
 			 dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (DD/MM/AAAA)", "Adicionar Projeto");
 		} while(dataInicial == null);
@@ -230,7 +242,7 @@ public class Menu {
 		}
 	}
 
-	private static void alterarStatusProjeto () {
+	private static void alterarStatusProjeto() {
 		if(GestaoProjetos.retornarListaProjetos() == null) {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
@@ -239,6 +251,43 @@ public class Menu {
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			int statusEscolhido = EntradaSaidaDados.escolherStatusProjeto();
 			projetoEscolhido.setStatus(statusEscolhido);
+		}
+	}
+
+	private static void alterarDataFinalProjeto() {
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
+			criarProjeto();
+		} else {
+			int posicaoProjeto= EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", "Alterar data final do projeto");
+			projetoEscolhido.setDataFinal(novaDataFinal);
+		}
+	}
+
+	private static void alterarStatusTarefa() {
+		if(GestaoProjetos.retornarListaProjetos() == null) {
+			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
+			criarProjeto();
+		} else {
+			int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
+			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
+			if(projetoEscolhido.retornarListaTarefas() == null) {
+				int resposta = JOptionPane.showConfirmDialog(null,
+						"Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?", "Aviso", JOptionPane.YES_NO_OPTION);
+
+				if(resposta == JOptionPane.YES_NO_OPTION) {
+					adicionarTarefa(projetoEscolhido);
+				} else {
+                    return;
+                }
+			} else {
+				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
+				Tarefa tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
+				int statusEscolhido = EntradaSaidaDados.escolherStatusTarefa();
+				tarefaEscolhida.setStatus(statusEscolhido);
+			}
 		}
 	}
 

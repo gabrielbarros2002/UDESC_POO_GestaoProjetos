@@ -8,20 +8,26 @@ public class EntradaSaidaDados {
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public static String retornarTexto(String mensagem, String titulo) {
-		String texto = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+	}
 
-		if(texto == null) {
-			Menu.exibirMenu();
-		}
-		return texto;
-	}
-	
 	public static int retornarInteiro(String mensagem, String titulo) {
-		return Integer.parseInt(JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE));
+		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		if (retorno == null) {
+			return -1;
+		} else {
+			return Integer.parseInt(retorno);
+		}
 	}
-	
+
 	public static double retornarReal(String mensagem, String titulo) {
-		return Double.parseDouble(JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE));
+		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		if (retorno == null) {
+			// Retorna -1.0 para indicar que a operação foi cancelada
+			return -1.0;
+		} else {
+			return Double.parseDouble(retorno);
+		}
 	}
 
 	public static LocalDate retornarData(String mensagem, String titulo) {
@@ -36,15 +42,25 @@ public class EntradaSaidaDados {
 		}
 		return date;
 	}
-	
+
 	public static int escolherProjeto(JComboBox<String> listaDeProjetos) {
 		JOptionPane.showInternalMessageDialog(null, listaDeProjetos, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
-		return listaDeProjetos.getSelectedIndex();
+		int selectedIndex = listaDeProjetos.getSelectedIndex();
+		if (selectedIndex == -1) {
+			return -1;
+		} else {
+			return selectedIndex;
+		}
 	}
 
 	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {
 		JOptionPane.showMessageDialog(null, listaDeTarefas);
-		return listaDeTarefas.getSelectedIndex();
+		int selectedIndex = listaDeTarefas.getSelectedIndex();
+		if (selectedIndex == -1) {
+			return -1;
+		} else {
+			return selectedIndex;
+		}
 	}
 
 	public static int escolherPrioridade() {
@@ -58,17 +74,27 @@ public class EntradaSaidaDados {
 	
 	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {
 		JOptionPane.showMessageDialog(null, listaDePessoas);
-		return listaDePessoas.getSelectedIndex();
+		int selectedIndex = listaDePessoas.getSelectedIndex();
+		if (selectedIndex == -1) {
+			return -1;
+		} else {
+			return selectedIndex;
+		}
 	}
 
 	public static int escolherRecurso(JComboBox<String> listaDeRecursos) {
 		JOptionPane.showMessageDialog(null, listaDeRecursos);
-		return listaDeRecursos.getSelectedIndex();
+		int selectedIndex = listaDeRecursos.getSelectedIndex();
+		if (selectedIndex == -1) {
+			// Retorna -1 para indicar que a operação foi cancelada
+			return -1;
+		} else {
+			return selectedIndex;
+		}
 	}
 
 	public static void mostrarMensagem(String mensagem, String titulo) {
 		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
-		
 	}
 
 	public static void mostrarRelatorio(String dadosRelatorio) {
@@ -78,7 +104,15 @@ public class EntradaSaidaDados {
 	public static int escolherStatusProjeto() {
 		JComboBox<String> listaStatus = new JComboBox<>();
 		listaStatus.addItem("1 - Em andamento");
-		listaStatus.addItem("1 - Finalizado");
+		listaStatus.addItem("2 - Finalizado");
+		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
+		return listaStatus.getSelectedIndex();
+	}
+
+	public static int escolherStatusTarefa() {
+		JComboBox<String> listaStatus = new JComboBox<>();
+		listaStatus.addItem("1 - Em aberto");
+		listaStatus.addItem("2 - Encerrada");
 		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
 		return listaStatus.getSelectedIndex();
 	}
