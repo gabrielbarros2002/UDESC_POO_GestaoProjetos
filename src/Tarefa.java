@@ -1,9 +1,10 @@
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Tarefa {
 	
 	private String nome;
-	private String prazo;
+	private LocalDate prazo;
 	private int prioridade;
 	private int status;
 
@@ -11,7 +12,7 @@ public class Tarefa {
 		return nome;
 	}
 
-	public String getPrazo() {
+	public LocalDate getPrazo() {
 		return prazo;
 	}
 
@@ -27,7 +28,7 @@ public class Tarefa {
 		this.nome = nome;
 	}
 
-	public void setPrazo(String prazo) {
+	public void setPrazo(LocalDate prazo) {
 		this.prazo = prazo;
 	}
 
@@ -39,7 +40,7 @@ public class Tarefa {
 		this.status = status;
 	}
 
-	Tarefa(String nome, String prazo, int prioridade){
+	Tarefa(String nome, LocalDate prazo, int prioridade){
 		this.nome = nome;
 		this.prazo = prazo;
 		this.prioridade = prioridade;

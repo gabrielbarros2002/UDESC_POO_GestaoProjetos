@@ -1,21 +1,21 @@
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 public abstract class Relatorio {
 	
-	protected String dataSolicitacao;
+	protected LocalDateTime dataSolicitacao;
 	protected Pessoa solicitante;
 	
-	Relatorio (String dataSolicitacao, Pessoa pessoa){
+	Relatorio (LocalDateTime dataSolicitacao, Pessoa pessoa){
 		this.dataSolicitacao=dataSolicitacao;
 		this.solicitante=pessoa;
 	}
 	
-	public String getDataSolicitacao() {
+	public LocalDateTime getDataSolicitacao() {
 		return dataSolicitacao;
 	}
 	
 	public Pessoa getSolicitante() {
 		return solicitante;
-	}	
+	}
 
 }

@@ -1,5 +1,4 @@
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -54,7 +53,11 @@ public class EntradaSaidaDados {
 	}
 
 	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {
-		JOptionPane.showMessageDialog(null, listaDeTarefas);
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Selecione a tarefa:\n"));
+		panel.add(new JLabel());
+		panel.add(listaDeTarefas);
+		JOptionPane.showMessageDialog(null, panel, "Escolher tarefa", JOptionPane.INFORMATION_MESSAGE);
 		int selectedIndex = listaDeTarefas.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return -1;
@@ -68,12 +71,19 @@ public class EntradaSaidaDados {
 		for(int i = 1; i <= 5; i++) {
 			listaDePrioridades.addItem("Nível " + i);
 		}
-		JOptionPane.showMessageDialog(null, listaDePrioridades, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Selecione a prioridade:\n"));
+		panel.add(new JLabel());
+		panel.add(listaDePrioridades);
+		JOptionPane.showMessageDialog(null, panel, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
+
 		return listaDePrioridades.getSelectedIndex();
 	}
 	
-	public static int  escolherPessoa(JComboBox<String> listaDePessoas) {
-		JOptionPane.showMessageDialog(null, listaDePessoas);
+	public static int escolherPessoa(JComboBox<String> listaDePessoas, String mensagem, String titulo) {
+		Object[] message = {mensagem, listaDePessoas};
+
+		JOptionPane.showMessageDialog(null, message, titulo, JOptionPane.INFORMATION_MESSAGE);
 		int selectedIndex = listaDePessoas.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return -1;
@@ -82,8 +92,8 @@ public class EntradaSaidaDados {
 		}
 	}
 
-	public static int escolherRecurso(JComboBox<String> listaDeRecursos) {
-		JOptionPane.showMessageDialog(null, listaDeRecursos);
+	public static int escolherRecurso(JComboBox<String> listaDeRecursos, String titulo) {
+		JOptionPane.showMessageDialog(null, listaDeRecursos, titulo, JOptionPane.INFORMATION_MESSAGE);
 		int selectedIndex = listaDeRecursos.getSelectedIndex();
 		if (selectedIndex == -1) {
 			// Retorna -1 para indicar que a operação foi cancelada
@@ -106,7 +116,7 @@ public class EntradaSaidaDados {
 		listaStatus.addItem("1 - Em andamento");
 		listaStatus.addItem("2 - Finalizado");
 		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
-		return listaStatus.getSelectedIndex();
+		return listaStatus.getSelectedIndex() + 1;
 	}
 
 	public static int escolherStatusTarefa() {
@@ -114,6 +124,6 @@ public class EntradaSaidaDados {
 		listaStatus.addItem("1 - Em aberto");
 		listaStatus.addItem("2 - Encerrada");
 		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
-		return listaStatus.getSelectedIndex();
+		return listaStatus.getSelectedIndex() + 1;
 	}
 }

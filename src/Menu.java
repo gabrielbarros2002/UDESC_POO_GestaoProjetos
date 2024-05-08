@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,9 +9,19 @@ import javax.swing.JOptionPane;
 
 public class Menu {
 
-
 	public static void exibirMenu() {
-		String[] lista = {"Criar projeto", "Adicionar tarefa", "Adicionar pessoa ao projeto", "Alocar tarefa", "Alocar recurso", "Excluir recurso", "Alterar status do projeto", "Alterar data final do projeto", "Alterar status da tarefa", "Gerar relatório", "Sair"};
+		String[] lista = {
+				"Criar projeto",
+				"Adicionar tarefa",
+				"Adicionar pessoa ao projeto",
+				"Alocar tarefa",
+				"Alocar recurso",
+				"Excluir recurso",
+				"Alterar status do projeto",
+				"Alterar data final do projeto",
+				"Alterar status da tarefa",
+				"Gerar relatório",
+				"Sair"};
 		String resposta;
 
 		do {
@@ -66,7 +77,11 @@ public class Menu {
 			
 			int tipo = EntradaSaidaDados.retornarInteiro("Informe o tipo de relatório desejado:"
 					+ "\n 1 - Dados gerais do projeto"
-					+ "\n 2 - Tarefas alocadas de um projeto", "Relatório");
+					+ "\n 2 - Tarefas alocadas de um projeto"
+					+ "\n 3 - Pessoas atribuídas a um projeto"
+					+ "\n 4 - Recursos alocados de um projeto"
+					+ "\n 5 - Tarefas finalizadas de um projeto",
+					"Relatório");
 				
 				int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 				Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
@@ -80,19 +95,27 @@ public class Menu {
 						exibirMenu();
 					}
 				}
-				int posicaoSolicitante = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
+				int posicaoSolicitante = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas(), "Escolha o solicitante do relatório", "Escolher solicitante");
 				Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);	
-				LocalDate dataSolcitacao = LocalDate.now();
-				String data = dataSolcitacao.toString();
-				RelatorioGeral relatorio = new RelatorioGeral(data, solicitante);
+				LocalDateTime dataSolcitacao = LocalDateTime.now();
+				RelatorioGeral relatorio = new RelatorioGeral(dataSolcitacao, solicitante);
 				
 				switch (tipo) {			
-				case 1:			
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido, solicitante));
+				case 1:
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido));
 					break;
 				case 2:					
 					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido));
-					break;	
+					break;
+				case 3:
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDePessoasNoProjeto(projetoEscolhido));
+					break;
+				case 4:
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeRecursosNoProjeto(projetoEscolhido));
+					break;
+				case 5:
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasFinalizadasDoProjeto(projetoEscolhido));
+					break;
 				}
 		} else {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
@@ -149,7 +172,7 @@ public class Menu {
 					return;
 				}
 			} else {
-				int posicaoPessoa = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas());
+				int posicaoPessoa = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas(),"Escolha a pessoa", "Escolher pessoa");
 				pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);
 			}
 			projetoEscolhido.alocarTarefa(pessoaEscolhida, tarefaEscolhida);
@@ -187,7 +210,10 @@ public class Menu {
 			int posicaoProjeto = EntradaSaidaDados.escolherProjeto(GestaoProjetos.retornarListaProjetos());
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
-			String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
+			LocalDate prazo;
+			do {
+				prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", "Adicionar Tarefa");
+			} while(prazo == null);
 			int prioridade = EntradaSaidaDados.escolherPrioridade();
 			Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
 			projetoEscolhido.adicionarTarefa(tarefa);
@@ -196,7 +222,10 @@ public class Menu {
 
 	private static void adicionarTarefa(Projeto projeto) {
 		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
-		String prazo = EntradaSaidaDados.retornarTexto("Informe o prazo da tarefa", "Adicionar Tarefa");
+		LocalDate prazo;
+		do {
+			prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", "Adicionar Tarefa");
+		} while(prazo == null);
 		int prioridade = EntradaSaidaDados.escolherPrioridade();
 		Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
 		projeto.adicionarTarefa(tarefa);
@@ -235,7 +264,7 @@ public class Menu {
 				EntradaSaidaDados.mostrarMensagem("Não há recursos para excluir!", "Aviso");
 				return;
 			}
-			int posicaoRecurso = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaRecursos());
+			int posicaoRecurso = EntradaSaidaDados.escolherRecurso(projetoEscolhido.retornarListaRecursos(), "Escolher recurso");
 			Recurso recursoEscolhido = projetoEscolhido.retornarRecurso(posicaoRecurso);
 			projetoEscolhido.excluirRecurso(recursoEscolhido);
 			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso", "Sucesso");
