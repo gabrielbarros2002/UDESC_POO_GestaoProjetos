@@ -96,33 +96,31 @@ public class Menu {
 					}
 				}
 				int posicaoSolicitante = EntradaSaidaDados.escolherPessoa(projetoEscolhido.retornarListaPessoas(), "Escolha o solicitante do relatório", "Escolher solicitante");
-				Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);	
+				Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);
 				LocalDateTime dataSolcitacao = LocalDateTime.now();
 				RelatorioGeral relatorio = new RelatorioGeral(dataSolcitacao, solicitante);
 				
 				switch (tipo) {			
 				case 1:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido), "Geral");
 					break;
 				case 2:					
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido), "de Tarefas Alocadas");
 					break;
 				case 3:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDePessoasNoProjeto(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDePessoasNoProjeto(projetoEscolhido), "de Pessoas no Projeto");
 					break;
 				case 4:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeRecursosNoProjeto(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeRecursosNoProjeto(projetoEscolhido), "de Recursos no Projeto");
 					break;
 				case 5:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasFinalizadasDoProjeto(projetoEscolhido));
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasFinalizadasDoProjeto(projetoEscolhido), "de Tarefas Finalizadas no Projeto");
 					break;
 				}
 		} else {
 			EntradaSaidaDados.mostrarMensagem("Adicione um projeto", "Aviso");
 			criarProjeto();
 		}
-		
-		
 	}
 
 	private static void adicionarRecurso() {
@@ -136,6 +134,7 @@ public class Menu {
 			double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso", "Recurso");
 			Recurso recurso = new Recurso(nome, valor);
 			projetoEscolhido.adicionarRecurso(recurso);
+			EntradaSaidaDados.mostrarMensagem("Recurso adicionado com sucesso!", "Sucesso");
 		}
 	}
 
@@ -176,6 +175,7 @@ public class Menu {
 				pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);
 			}
 			projetoEscolhido.alocarTarefa(pessoaEscolhida, tarefaEscolhida);
+			EntradaSaidaDados.mostrarMensagem("Tarefa alocada com sucesso!", "Sucesso");
 		}
 	}
 
@@ -191,6 +191,7 @@ public class Menu {
 			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
 			Pessoa p = new Pessoa(nome, sobrenome, cargo);
 			projetoEscolhido.adicionarPessoa(p);
+			EntradaSaidaDados.mostrarMensagem("Pessoa adicionada com sucesso!", "Sucesso");
 		}
 	}
 
@@ -200,6 +201,7 @@ public class Menu {
 		Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
 		Pessoa pessoa = new Pessoa(nome, sobrenome, cargo);
 		projeto.adicionarPessoa(pessoa);
+		EntradaSaidaDados.mostrarMensagem("Pessoa adicionada com sucesso!", "Sucesso");
 	}
 
 	private static void adicionarTarefa() {			
@@ -217,6 +219,7 @@ public class Menu {
 			int prioridade = EntradaSaidaDados.escolherPrioridade();
 			Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
 			projetoEscolhido.adicionarTarefa(tarefa);
+			EntradaSaidaDados.mostrarMensagem("Tarefa adicionada com sucesso!", "Sucesso");
 		}
 	}
 
@@ -229,6 +232,7 @@ public class Menu {
 		int prioridade = EntradaSaidaDados.escolherPrioridade();
 		Tarefa tarefa = new Tarefa(nome, prazo, prioridade);
 		projeto.adicionarTarefa(tarefa);
+		EntradaSaidaDados.mostrarMensagem("Tarefa adicionada com sucesso!", "Sucesso");
 	}
 
 	private static void criarProjeto() {
@@ -251,6 +255,7 @@ public class Menu {
 		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
 		p.setStatus(1); // Status 1 - Em andamento
 		GestaoProjetos.adicionarProjeto(p);
+		EntradaSaidaDados.mostrarMensagem("Projeto criado com sucesso!", "Sucesso");
 	}
 
 	private static void excluirRecurso() {
@@ -267,7 +272,7 @@ public class Menu {
 			int posicaoRecurso = EntradaSaidaDados.escolherRecurso(projetoEscolhido.retornarListaRecursos(), "Escolher recurso");
 			Recurso recursoEscolhido = projetoEscolhido.retornarRecurso(posicaoRecurso);
 			projetoEscolhido.excluirRecurso(recursoEscolhido);
-			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso", "Sucesso");
+			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso!", "Sucesso");
 		}
 	}
 
@@ -280,6 +285,7 @@ public class Menu {
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			int statusEscolhido = EntradaSaidaDados.escolherStatusProjeto();
 			projetoEscolhido.setStatus(statusEscolhido);
+			EntradaSaidaDados.mostrarMensagem("Status alterado com sucesso!", "Sucesso");
 		}
 	}
 
@@ -292,6 +298,7 @@ public class Menu {
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", "Alterar data final do projeto");
 			projetoEscolhido.setDataFinal(novaDataFinal);
+			EntradaSaidaDados.mostrarMensagem("Data final do projeto alterada com sucesso!", "Sucesso");
 		}
 	}
 
@@ -308,14 +315,13 @@ public class Menu {
 
 				if(resposta == JOptionPane.YES_NO_OPTION) {
 					adicionarTarefa(projetoEscolhido);
-				} else {
-                    return;
-                }
+				}
 			} else {
 				int posicaoTarefa = EntradaSaidaDados.escolherTarefa(projetoEscolhido.retornarListaTarefas());
 				Tarefa tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 				int statusEscolhido = EntradaSaidaDados.escolherStatusTarefa();
 				tarefaEscolhida.setStatus(statusEscolhido);
+				EntradaSaidaDados.mostrarMensagem("Status da tarefa " + tarefaEscolhida + " alterado com sucesso!", "Sucesso");
 			}
 		}
 	}

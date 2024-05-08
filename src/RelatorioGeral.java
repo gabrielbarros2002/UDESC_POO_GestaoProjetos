@@ -13,11 +13,17 @@ public class RelatorioGeral extends Relatorio{
 	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm");
 
 	public String gerarRelatorioDadosGerais(Projeto projeto) {
+		String statusProjeto;
+		if(projeto.getStatus() == 1) {
+			statusProjeto = "Em andamento";
+		} else {
+			statusProjeto = "Finalizado";
+		}
 		String dados = "Dados do projeto " + projeto.getTitulo();
 		dados += "\n\n Data inicial: " + dateFormatter.format(projeto.getDataInicial());
 		dados += "\n Data final: " + dateFormatter.format(projeto.getDataFinal());
 		dados += "\n Cliente: " + projeto.getCliente();
-		dados += "\n Status do projeto: " + projeto.getStatus();
+		dados += "\n Status do projeto: " + statusProjeto;
 		dados += "\n---------------------------------------";
 		dados += "\n Solicitante: " + this.solicitante.getNome();
 		dados += "\n Data e Hora: " + dateTimeFormatter.format(this.dataSolicitacao);

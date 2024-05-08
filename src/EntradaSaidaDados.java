@@ -43,7 +43,8 @@ public class EntradaSaidaDados {
 	}
 
 	public static int escolherProjeto(JComboBox<String> listaDeProjetos) {
-		JOptionPane.showInternalMessageDialog(null, listaDeProjetos, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
+		Object[] message = {"Selecione o projeto:", listaDeProjetos};
+		JOptionPane.showInternalMessageDialog(null, message, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
 		int selectedIndex = listaDeProjetos.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return -1;
@@ -53,11 +54,9 @@ public class EntradaSaidaDados {
 	}
 
 	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {
-		JPanel panel = new JPanel();
-		panel.add(new JLabel("Selecione a tarefa:\n"));
-		panel.add(new JLabel());
-		panel.add(listaDeTarefas);
-		JOptionPane.showMessageDialog(null, panel, "Escolher tarefa", JOptionPane.INFORMATION_MESSAGE);
+		Object[] message = {"Selecione a tarefa:", listaDeTarefas};
+
+		JOptionPane.showMessageDialog(null, message, "Escolher tarefa", JOptionPane.INFORMATION_MESSAGE);
 		int selectedIndex = listaDeTarefas.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return -1;
@@ -71,11 +70,9 @@ public class EntradaSaidaDados {
 		for(int i = 1; i <= 5; i++) {
 			listaDePrioridades.addItem("Nível " + i);
 		}
-		JPanel panel = new JPanel();
-		panel.add(new JLabel("Selecione a prioridade:\n"));
-		panel.add(new JLabel());
-		panel.add(listaDePrioridades);
-		JOptionPane.showMessageDialog(null, panel, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
+		Object[] message = {"Selecione a prioridade:", listaDePrioridades};
+
+		JOptionPane.showMessageDialog(null, message, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
 
 		return listaDePrioridades.getSelectedIndex();
 	}
@@ -107,8 +104,8 @@ public class EntradaSaidaDados {
 		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public static void mostrarRelatorio(String dadosRelatorio) {
-		JOptionPane.showMessageDialog(null, "Relatório\n" + dadosRelatorio);
+	public static void mostrarRelatorio(String dadosRelatorio, String tipoRelatorio) {
+		JOptionPane.showMessageDialog(null, dadosRelatorio, "Relatório " + tipoRelatorio, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static int escolherStatusProjeto() {
