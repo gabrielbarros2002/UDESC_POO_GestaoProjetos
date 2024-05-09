@@ -1,8 +1,13 @@
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.List;
 
 public class EntradaSaidaDados {
+
+	public static final int FECHAR_OU_CANCELAR = -1;
 
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -31,14 +36,23 @@ public class EntradaSaidaDados {
 
 	public static LocalDate retornarData(String mensagem, String titulo) {
 		LocalDate date = null;
-		String userInput = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		boolean dataValida = false;
 
-		try {
-			date = LocalDate.parse(userInput, dateFormatter);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Formato de data inválido!");
-			e.printStackTrace();
+		while (!dataValida) {
+			String userInput = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+
+			if (userInput == null) {
+				return null;
+			}
+
+			try {
+				date = LocalDate.parse(userInput, dateFormatter);
+				dataValida = true;
+			} catch (DateTimeParseException e) {
+				JOptionPane.showMessageDialog(null, "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.");
+			}
 		}
+
 		return date;
 	}
 
@@ -66,15 +80,26 @@ public class EntradaSaidaDados {
 	}
 
 	public static int escolherPrioridade() {
-		JComboBox<String> listaDePrioridades = new JComboBox<>();
-		for(int i = 1; i <= 5; i++) {
-			listaDePrioridades.addItem("Nível " + i);
+		String[] listaDePrioridades = {"Nível 1", "Nível 2", "Nível 3", "Nível 4", "Nível 5"};
+
+		String resposta = (String) JOptionPane.showInputDialog(
+				null,
+				"Selecione a prioridade:",
+				"Adicionar Tarefa",
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				listaDePrioridades,
+				listaDePrioridades[0] // Seleção padrão
+		);
+
+		List<String> lista = Arrays.asList(listaDePrioridades);
+
+		// Retorna o índice da prioridade selecionada
+		if (resposta != null) {
+			return lista.indexOf(resposta);
 		}
-		Object[] message = {"Selecione a prioridade:", listaDePrioridades};
 
-		JOptionPane.showMessageDialog(null, message, "Adicionar Tarefa", JOptionPane.INFORMATION_MESSAGE);
-
-		return listaDePrioridades.getSelectedIndex();
+		return -1;
 	}
 	
 	public static int escolherPessoa(JComboBox<String> listaDePessoas, String mensagem, String titulo) {
@@ -89,19 +114,12 @@ public class EntradaSaidaDados {
 		}
 	}
 
-	public static int escolherRecurso(JComboBox<String> listaDeRecursos, String titulo) {
-		JOptionPane.showMessageDialog(null, listaDeRecursos, titulo, JOptionPane.INFORMATION_MESSAGE);
-		int selectedIndex = listaDeRecursos.getSelectedIndex();
-		if (selectedIndex == -1) {
-			// Retorna -1 para indicar que a operação foi cancelada
-			return -1;
-		} else {
-			return selectedIndex;
-		}
-	}
-
 	public static void mostrarMensagem(String mensagem, String titulo) {
 		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public static int mostrarConfirmacao(String mensagem, String titulo) {
+		return JOptionPane.showConfirmDialog(null, mensagem, titulo, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	}
 
 	public static void mostrarRelatorio(String dadosRelatorio, String tipoRelatorio) {
@@ -122,5 +140,15 @@ public class EntradaSaidaDados {
 		listaStatus.addItem("2 - Encerrada");
 		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
 		return listaStatus.getSelectedIndex() + 1;
+	}
+
+	public static int escolherRecurso(JComboBox<String> listaDeRecursos, String titulo) {
+		JOptionPane.showMessageDialog(null, listaDeRecursos, titulo, JOptionPane.INFORMATION_MESSAGE);
+		int selectedIndex = listaDeRecursos.getSelectedIndex();
+		if (selectedIndex == -1) {
+			return -1;
+		} else {
+			return selectedIndex;
+		}
 	}
 }

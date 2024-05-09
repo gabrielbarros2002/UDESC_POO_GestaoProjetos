@@ -17,9 +17,6 @@ public class GestaoProjetos {
 	
 	public static JComboBox retornarListaProjetos() {
 		JComboBox<String> lista = new JComboBox<String>();
-		if(listaDeProjetos.isEmpty()) {
-			return null;
-		}
 		for(Projeto p : listaDeProjetos) {
 			lista.addItem(p.getTitulo());
 		}
