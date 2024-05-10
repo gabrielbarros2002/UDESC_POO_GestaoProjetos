@@ -78,29 +78,30 @@ public class Menu {
 
 	// Criar projeto
 	private static void criarProjeto() {
-		String titulo = EntradaSaidaDados.retornarTexto("Informe o título do projeto", "Adicionar Projeto");
-		if(titulo == null){
+		String titulo = "Criar Projeto";
+		String tituloProjeto = EntradaSaidaDados.retornarTexto("Informe o título do projeto", titulo);
+		if(tituloProjeto == null){
 			return;
 		}
 
-		String cliente = EntradaSaidaDados.retornarTexto("Informe o cliente do projeto", "Adicionar Projeto");
+		String cliente = EntradaSaidaDados.retornarTexto("Informe o cliente do projeto", titulo);
 		if(cliente == null) {
 			return;
 		}
 
 		LocalDate dataInicial;
-		dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (DD/MM/AAAA)", "Adicionar Projeto");
+		dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (DD/MM/AAAA)", titulo);
 		if(dataInicial == null) {
 			return;
 		}
 
 		LocalDate dataFinal;
-		dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (DD/MM/AAAA)", "Adicionar Projeto");
+		dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (DD/MM/AAAA)", titulo);
 		if(dataFinal == null) {
 			return;
 		}
 
-		Projeto p = new Projeto(titulo, cliente, dataInicial, dataFinal);
+		Projeto p = new Projeto(tituloProjeto, cliente, dataInicial, dataFinal);
 		GestaoProjetos.adicionarProjeto(p);
 
 		EntradaSaidaDados.mostrarMensagem("Projeto criado com sucesso!", "Sucesso");
@@ -117,13 +118,13 @@ public class Menu {
 
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", titulo);
 			if(nome == null) {
 				return;
 			}
 
 			LocalDate prazo;
-			prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", "Adicionar Tarefa");
+			prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", titulo);
 			if(prazo == null) {
 				return;
 			}
@@ -147,13 +148,14 @@ public class Menu {
 
 	// Adicionar tarefa (com projeto como parâmetro)
 	private static void adicionarTarefa(Projeto projeto) {
-		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", "Adicionar Tarefa");
+		String titulo = "Adicionar tarefa";
+		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", titulo);
 		if(nome == null) {
 			return;
 		}
 
 		LocalDate prazo;
-		prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", "Adicionar Tarefa");
+		prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", titulo);
 		if(prazo == null) {
 			return;
 		}
@@ -180,17 +182,17 @@ public class Menu {
 
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", "Adicionar Pessoa");
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", titulo);
 			if(nome == null) {
 				return;
 			}
 
-			String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", "Adicionar Pessoa");
+			String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", titulo);
 			if(sobrenome == null) {
 				return;
 			}
 
-			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
+			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo));
 			if(cargo == null) {
 				return;
 			}
@@ -209,17 +211,18 @@ public class Menu {
 
 	// Adicionar pessoa (com projeto como parâmetro)
 	private static void adicionarPessoa(Projeto projeto) {
-		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", "Adicionar Pessoa");
+		String titulo = "Adicionar pessoa";
+		String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", titulo);
 		if(nome == null) {
 			return;
 		}
 
-		String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", "Adicionar Pessoa");
+		String sobrenome = EntradaSaidaDados.retornarTexto("Informe o sobrenome da pessoa", titulo);
 		if(sobrenome == null) {
 			return;
 		}
 
-		Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", "Adicionar Pessoa"));
+		Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo));
 		if(cargo == null) {
 			return;
 		}
@@ -296,12 +299,12 @@ public class Menu {
 
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
-			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso", "Recurso");
+			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso", titulo);
 			if(nome == null) {
 				return;
 			}
 
-			Double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso", "Recurso");
+			Double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso", titulo);
 			if(valor == null) {
 				return;
 			}
@@ -389,7 +392,7 @@ public class Menu {
 
 			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
-			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", "Alterar data final do projeto");
+			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", titulo);
 			if(novaDataFinal == null) {
 				return;
 			}
