@@ -5,6 +5,9 @@ import javax.swing.JOptionPane;
 
 public class Menu {
 
+	public static final String MENSAGEM_SEM_PROJETOS = "Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?";
+	public static final String MENSAGEM_SAIR = "Tem certeza que deseja sair?\nSeus dados serão perdidos";
+
 	public static void exibirMenu() {
 		String[] lista = {
 				"Criar projeto",
@@ -140,7 +143,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Tarefa adicionada com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -203,7 +206,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Pessoa adicionada com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -282,7 +285,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Tarefa alocada com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -315,7 +318,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Recurso adicionado com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -348,7 +351,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -375,7 +378,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Status alterado com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -402,7 +405,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Data final do projeto alterada com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -445,7 +448,7 @@ public class Menu {
 			}
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					"Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -517,14 +520,14 @@ public class Menu {
 					break;
 			}
 		} else {
-			if(EntradaSaidaDados.retornarConfirmacao("Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+			if(EntradaSaidaDados.retornarConfirmacao(MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
 	}
 
 	public static Boolean sair() {
-		if(EntradaSaidaDados.retornarConfirmacao("Tem certeza que deseja sair?\nSeus dados serão perdidos", "Sair") == JOptionPane.YES_OPTION) {
+		if(EntradaSaidaDados.retornarConfirmacao(MENSAGEM_SAIR, "Sair") == JOptionPane.YES_OPTION) {
 			return true;
 		} else {
 			return false;
