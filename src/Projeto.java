@@ -2,6 +2,7 @@ import java.awt.Component;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 
@@ -20,10 +21,11 @@ public class Projeto {
 	//Não é necessário representar no diagrama os getters and setters
 	
 	Projeto (String titulo, String cliente, LocalDate dataInicial, LocalDate dataFinal){
-		this.titulo=titulo;
-		this.cliente=cliente;
-		this.dataInicial=dataInicial;
-		this.dataFinal=dataFinal;
+		this.titulo = titulo;
+		this.cliente = cliente;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataFinal;
+		this.status = 1;
 	}
 	
 	public String getTitulo() {
@@ -113,12 +115,25 @@ public class Projeto {
 	public void adicionarTarefa(Tarefa tarefa) {
 		this.listaDeTarefas.add(tarefa);
 	}
-	
-	
+
+
 	public void alocarTarefa(Pessoa pessoa, Tarefa tarefa) {
-		TarefaAlocada tarefaAlocada =new TarefaAlocada(pessoa, tarefa);
-		this.listaDeTarefasAlocadas.add(tarefaAlocada);
-		
+		TarefaAlocada tarefaDesejada = null;
+		for (TarefaAlocada tarefaAlocada : listaDeTarefasAlocadas) {
+			if (tarefaAlocada.getTarefa() == tarefa) {
+				tarefaDesejada = tarefaAlocada;
+				break;
+			}
+		}
+
+		List<Pessoa> pessoaList = new ArrayList<>();
+		if (tarefaDesejada != null) {
+			tarefaDesejada.getPessoaList().add(pessoa);
+		} else {
+			pessoaList.add(pessoa);
+			TarefaAlocada tarefaAlocada = new TarefaAlocada(pessoaList, tarefa);
+			this.listaDeTarefasAlocadas.add(tarefaAlocada);
+		}
 	}
 
 	public JComboBox<String> retornarListaTarefas() {

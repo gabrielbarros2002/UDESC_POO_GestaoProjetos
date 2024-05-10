@@ -1,15 +1,16 @@
+import java.util.List;
 
 public class TarefaAlocada {
 	
-	private Pessoa pessoa;
+	private List<Pessoa> pessoaList;
 	private Tarefa tarefa;
-	
-	public Pessoa getPessoa() {
-		return pessoa;
+
+	public List<Pessoa> getPessoaList() {
+		return pessoaList;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setPessoaList(List<Pessoa> pessoaList) {
+		this.pessoaList = pessoaList;
 	}
 
 	public Tarefa getTarefa() {
@@ -20,9 +21,9 @@ public class TarefaAlocada {
 		this.tarefa = tarefa;
 	}
 	
-	TarefaAlocada(Pessoa pessoa, Tarefa tarefa){
-		this.pessoa=pessoa;
-		this.tarefa=tarefa;
+	TarefaAlocada(List<Pessoa> pessoaList, Tarefa tarefa){
+		this.pessoaList = pessoaList;
+		this.tarefa = tarefa;
 	}
 
 }

@@ -11,29 +11,62 @@ public class EntradaSaidaDados {
 
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+	// MÉTODOS DE RETORNO
+
+	// Texto
 	public static String retornarTexto(String mensagem, String titulo) {
 		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
 	}
 
-	public static int retornarInteiro(String mensagem, String titulo) {
+	// Inteiro
+	public static Integer retornarInteiro(String mensagem, String titulo) {
 		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
 		if (retorno == null) {
-			return -1;
+			return null;
+		}
+		return Integer.parseInt(retorno);
+	}
+
+	// Real
+	public static Double retornarReal(String mensagem, String titulo) {
+		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		if (retorno == null) {
+			return null;
+		}
+		return Double.parseDouble(retorno);
+	}
+
+	// Confirmação
+	public static int retornarConfirmacao(String mensagem, String titulo) {
+		return JOptionPane.showConfirmDialog(null, mensagem, titulo, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+	}
+
+	//Opção
+	public static Integer retornarOpcao(String mensagem, String titulo, JComboBox<String> lista) {
+		Object[] message = {mensagem, lista};
+
+		int opcao = JOptionPane.showOptionDialog(null,
+				message,
+				titulo,
+				JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				null,
+				null);
+
+		if (opcao == JOptionPane.OK_OPTION) {
+			int selectedIndex = lista.getSelectedIndex();
+			if (selectedIndex == -1) {
+				return null;
+			} else {
+				return selectedIndex;
+			}
 		} else {
-			return Integer.parseInt(retorno);
+			return null;
 		}
 	}
 
-	public static double retornarReal(String mensagem, String titulo) {
-		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
-		if (retorno == null) {
-			// Retorna -1.0 para indicar que a operação foi cancelada
-			return -1.0;
-		} else {
-			return Double.parseDouble(retorno);
-		}
-	}
-
+	// Data
 	public static LocalDate retornarData(String mensagem, String titulo) {
 		LocalDate date = null;
 		boolean dataValida = false;
@@ -56,99 +89,70 @@ public class EntradaSaidaDados {
 		return date;
 	}
 
-	public static int escolherProjeto(JComboBox<String> listaDeProjetos) {
-		Object[] message = {"Selecione o projeto:", listaDeProjetos};
-		JOptionPane.showInternalMessageDialog(null, message, "Lista de projetos", JOptionPane.INFORMATION_MESSAGE, null);
-		int selectedIndex = listaDeProjetos.getSelectedIndex();
-		if (selectedIndex == -1) {
-			return -1;
-		} else {
-			return selectedIndex;
-		}
-	}
+	// MÉTODOS DE PRINT
 
-	public static int  escolherTarefa(JComboBox<String> listaDeTarefas) {
-		Object[] message = {"Selecione a tarefa:", listaDeTarefas};
-
-		JOptionPane.showMessageDialog(null, message, "Escolher tarefa", JOptionPane.INFORMATION_MESSAGE);
-		int selectedIndex = listaDeTarefas.getSelectedIndex();
-		if (selectedIndex == -1) {
-			return -1;
-		} else {
-			return selectedIndex;
-		}
-	}
-
-	public static int escolherPrioridade() {
-		String[] listaDePrioridades = {"Nível 1", "Nível 2", "Nível 3", "Nível 4", "Nível 5"};
-
-		String resposta = (String) JOptionPane.showInputDialog(
-				null,
-				"Selecione a prioridade:",
-				"Adicionar Tarefa",
-				JOptionPane.INFORMATION_MESSAGE,
-				null,
-				listaDePrioridades,
-				listaDePrioridades[0] // Seleção padrão
-		);
-
-		List<String> lista = Arrays.asList(listaDePrioridades);
-
-		// Retorna o índice da prioridade selecionada
-		if (resposta != null) {
-			return lista.indexOf(resposta);
-		}
-
-		return -1;
-	}
-	
-	public static int escolherPessoa(JComboBox<String> listaDePessoas, String mensagem, String titulo) {
-		Object[] message = {mensagem, listaDePessoas};
-
-		JOptionPane.showMessageDialog(null, message, titulo, JOptionPane.INFORMATION_MESSAGE);
-		int selectedIndex = listaDePessoas.getSelectedIndex();
-		if (selectedIndex == -1) {
-			return -1;
-		} else {
-			return selectedIndex;
-		}
-	}
-
+	// Mensagem
 	public static void mostrarMensagem(String mensagem, String titulo) {
 		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public static int mostrarConfirmacao(String mensagem, String titulo) {
-		return JOptionPane.showConfirmDialog(null, mensagem, titulo, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-	}
-
+	// Relatório
 	public static void mostrarRelatorio(String dadosRelatorio, String tipoRelatorio) {
 		JOptionPane.showMessageDialog(null, dadosRelatorio, "Relatório " + tipoRelatorio, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public static int escolherStatusProjeto() {
-		JComboBox<String> listaStatus = new JComboBox<>();
-		listaStatus.addItem("1 - Em andamento");
-		listaStatus.addItem("2 - Finalizado");
-		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
-		return listaStatus.getSelectedIndex() + 1;
+	// MÉTODOS DE ESCOLHA
+
+	// Projeto
+	public static Integer escolherProjeto(String titulo, JComboBox<String> listaDeProjetos) {
+		return retornarOpcao("Selecione o projeto:", titulo, listaDeProjetos);
 	}
 
-	public static int escolherStatusTarefa() {
-		JComboBox<String> listaStatus = new JComboBox<>();
-		listaStatus.addItem("1 - Em aberto");
-		listaStatus.addItem("2 - Encerrada");
-		JOptionPane.showMessageDialog(null, listaStatus, "Escolher status", JOptionPane.INFORMATION_MESSAGE);
-		return listaStatus.getSelectedIndex() + 1;
+	// Tarefa
+	public static Integer escolherTarefa(String titulo, JComboBox<String> listaDeTarefas) {
+		return retornarOpcao("Selecione a tarefa:", titulo, listaDeTarefas);
 	}
 
-	public static int escolherRecurso(JComboBox<String> listaDeRecursos, String titulo) {
-		JOptionPane.showMessageDialog(null, listaDeRecursos, titulo, JOptionPane.INFORMATION_MESSAGE);
-		int selectedIndex = listaDeRecursos.getSelectedIndex();
-		if (selectedIndex == -1) {
-			return -1;
-		} else {
-			return selectedIndex;
+	// Pessoa
+	public static Integer escolherPessoa(String titulo, JComboBox<String> listaDePessoas) {
+		return retornarOpcao("Selecione a pessoa:", titulo, listaDePessoas);
+	}
+
+	// Recurso
+	public static Integer escolherRecurso(String titulo, JComboBox<String> listaDeRecursos) {
+		return retornarOpcao("Selecione o recurso:", titulo, listaDeRecursos);
+	}
+
+	// Prioridade
+	public static Integer escolherPrioridade() {
+		String[] lista = {"Nível 1", "Nível 2", "Nível 3", "Nível 4", "Nível 5"};
+		JComboBox<String> listaDePrioridade = new JComboBox<>(lista);
+
+		return retornarOpcao("Selecione a prioridade:", "Adicionar Tarefa", listaDePrioridade);
+	}
+
+	// Status de projeto
+	public static Integer escolherStatusProjeto(String titulo) {
+		String[] lista = {"1 - Em andamento", "2 - Finalizado"};
+		JComboBox<String> listaStatus = new JComboBox<>(lista);
+
+		Integer opcao = retornarOpcao("Selecione o status do projeto:", titulo, listaStatus);
+		if(opcao == null) {
+			return null;
 		}
+		return opcao + 1;
 	}
+
+	// Status de tarefa
+	public static Integer escolherStatusTarefa(String titulo) {
+		String[] lista = {"1 - Em aberto", "2 - Encerrada"};
+		JComboBox<String> listaStatus = new JComboBox<>(lista);
+
+		Integer opcao = retornarOpcao("Selecione o status da tarefa:", titulo, listaStatus);
+		if(opcao == null) {
+			return null;
+		}
+		return opcao + 1;
+	}
+
 }
