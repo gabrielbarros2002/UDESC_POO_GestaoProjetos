@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EntradaSaidaDados {
 
-	public static final int FECHAR_OU_CANCELAR = -1;
+	public static final String MENSAGEM_DATA_INVALIDA = "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.";
 
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -82,7 +82,7 @@ public class EntradaSaidaDados {
 				date = LocalDate.parse(userInput, dateFormatter);
 				dataValida = true;
 			} catch (DateTimeParseException e) {
-				JOptionPane.showMessageDialog(null, "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.");
+				JOptionPane.showMessageDialog(null, MENSAGEM_DATA_INVALIDA);
 			}
 		}
 
@@ -104,8 +104,12 @@ public class EntradaSaidaDados {
 	// MÉTODOS DE ESCOLHA
 
 	// Projeto
-	public static Integer escolherProjeto(String titulo, JComboBox<String> listaDeProjetos) {
-		return retornarOpcao("Selecione o projeto:", titulo, listaDeProjetos);
+	public static Projeto escolherProjeto(String titulo, JComboBox<String> listaDeProjetos) {
+		Integer posicaoProjeto = retornarOpcao("Selecione o projeto:", titulo, listaDeProjetos);
+		if(posicaoProjeto == null) {
+			return null;
+		}
+		return GestaoProjetos.retornarProjeto(posicaoProjeto);
 	}
 
 	// Tarefa
@@ -119,8 +123,12 @@ public class EntradaSaidaDados {
 	}
 
 	// Recurso
-	public static Integer escolherRecurso(String titulo, JComboBox<String> listaDeRecursos) {
-		return retornarOpcao("Selecione o recurso:", titulo, listaDeRecursos);
+	public static Recurso escolherRecurso(String titulo, JComboBox<String> listaDeRecursos, Projeto projeto) {
+		Integer posicaoRecurso = retornarOpcao("Selecione o recurso:", titulo, listaDeRecursos);
+		if(posicaoRecurso == null) {
+			return null;
+		}
+		return projeto.retornarRecurso(posicaoRecurso);
 	}
 
 	// Prioridade

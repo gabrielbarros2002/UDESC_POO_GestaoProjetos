@@ -18,8 +18,6 @@ public class Projeto {
 	private ArrayList<TarefaAlocada> listaDeTarefasAlocadas = new ArrayList<TarefaAlocada>();
 	private int status;
 	
-	//Não é necessário representar no diagrama os getters and setters
-	
 	Projeto (String titulo, String cliente, LocalDate dataInicial, LocalDate dataFinal){
 		this.titulo = titulo;
 		this.cliente = cliente;

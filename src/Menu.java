@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 public class Menu {
 
 	public static final String MENSAGEM_SEM_PROJETOS = "Não há projetos cadastrados.\nDeseja cadastrar um novo projeto?";
+	public static final String MENSAGEM_SEM_TAREFAS = "Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?";
+	public static final String MENSAGEM_SEM_PESSOAS = "Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?";
 	public static final String MENSAGEM_SAIR = "Tem certeza que deseja sair?\nSeus dados serão perdidos";
 
 	public static void exibirMenu() {
@@ -93,19 +95,19 @@ public class Menu {
 		}
 
 		LocalDate dataInicial;
-		dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (DD/MM/AAAA)", titulo);
+		dataInicial = EntradaSaidaDados.retornarData("Informe a data inicial do projeto (dd/MM/aaaa)", titulo);
 		if(dataInicial == null) {
 			return;
 		}
 
 		LocalDate dataFinal;
-		dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (DD/MM/AAAA)", titulo);
+		dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (dd/MM/aaaa)", titulo);
 		if(dataFinal == null) {
 			return;
 		}
 
-		Projeto p = new Projeto(tituloProjeto, cliente, dataInicial, dataFinal);
-		GestaoProjetos.adicionarProjeto(p);
+		Projeto projeto = new Projeto(tituloProjeto, cliente, dataInicial, dataFinal);
+		GestaoProjetos.adicionarProjeto(projeto);
 
 		EntradaSaidaDados.mostrarMensagem("Projeto criado com sucesso!", "Sucesso");
 	}
@@ -114,12 +116,10 @@ public class Menu {
 	private static void adicionarTarefa() {
 		String titulo = "Adicionar tarefa";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da tarefa", titulo);
 			if(nome == null) {
@@ -143,7 +143,7 @@ public class Menu {
 			EntradaSaidaDados.mostrarMensagem("Tarefa adicionada com sucesso!", "Sucesso");
 		} else {
 			if(EntradaSaidaDados.retornarConfirmacao(
-					, "Aviso") == JOptionPane.YES_OPTION) {
+					MENSAGEM_SEM_PROJETOS, "Aviso") == JOptionPane.YES_OPTION) {
 				criarProjeto();
 			}
 		}
@@ -178,12 +178,10 @@ public class Menu {
 	private static void adicionarPessoa() {
 		String titulo = "Adicionar pessoa";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome da pessoa", titulo);
 			if(nome == null) {
@@ -195,13 +193,14 @@ public class Menu {
 				return;
 			}
 
-			Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo));
-			if(cargo == null) {
+			String nomeCargo = EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo);
+			if(nomeCargo == null) {
 				return;
 			}
+			Cargo cargo = new Cargo(nomeCargo);
 
-			Pessoa p = new Pessoa(nome, sobrenome, cargo);
-			projetoEscolhido.adicionarPessoa(p);
+			Pessoa pessoa = new Pessoa(nome, sobrenome, cargo);
+			projetoEscolhido.adicionarPessoa(pessoa);
 
 			EntradaSaidaDados.mostrarMensagem("Pessoa adicionada com sucesso!", "Sucesso");
 		} else {
@@ -225,10 +224,11 @@ public class Menu {
 			return;
 		}
 
-		Cargo cargo = new Cargo(EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo));
-		if(cargo == null) {
+		String nomeCargo = EntradaSaidaDados.retornarTexto("Informe o cargo da pessoa no projeto", titulo);
+		if(nomeCargo == null) {
 			return;
 		}
+		Cargo cargo = new Cargo(nomeCargo);
 
 		Pessoa pessoa = new Pessoa(nome, sobrenome, cargo);
 		projeto.adicionarPessoa(pessoa);
@@ -240,15 +240,13 @@ public class Menu {
 	private static void alocarTarefa() {
 		String titulo = "Alocar tarefa";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Pessoa pessoaEscolhida = null;
-			Tarefa tarefaEscolhida = null;
+			Pessoa pessoaEscolhida;
+			Tarefa tarefaEscolhida;
 
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			if(projetoEscolhido.retornarListaTarefas() != null) {
 				Integer posicaoTarefa = EntradaSaidaDados.escolherTarefa(titulo, projetoEscolhido.retornarListaTarefas());
@@ -259,7 +257,7 @@ public class Menu {
 				tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 			} else {
 				if(EntradaSaidaDados.retornarConfirmacao(
-						"Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+						MENSAGEM_SEM_TAREFAS, "Aviso") == JOptionPane.YES_OPTION) {
 					adicionarTarefa(projetoEscolhido);
 				}
 				return;
@@ -274,7 +272,7 @@ public class Menu {
 				pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);
 			} else {
 				if(EntradaSaidaDados.retornarConfirmacao(
-						"Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+						MENSAGEM_SEM_PESSOAS, "Aviso") == JOptionPane.YES_OPTION) {
 					adicionarPessoa(projetoEscolhido);
 				}
 				return;
@@ -295,12 +293,10 @@ public class Menu {
 	private static void alocarRecurso() {
 		String titulo = "Alocar recurso";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			String nome = EntradaSaidaDados.retornarTexto("Informe o nome do recurso", titulo);
 			if(nome == null) {
@@ -328,24 +324,22 @@ public class Menu {
 	private static void excluirRecurso() {
 		String titulo = "Excluir recurso";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			if(projetoEscolhido.retornarListaRecursos() == null) {
 				EntradaSaidaDados.mostrarMensagem("Não há recursos para excluir!", "Aviso");
 				return;
 			}
 
-			Integer posicaoRecurso = EntradaSaidaDados.escolherRecurso(titulo, projetoEscolhido.retornarListaRecursos());
-			if(posicaoRecurso == null) {
+			Recurso recursoEscolhido = EntradaSaidaDados.escolherRecurso(
+					titulo, projetoEscolhido.retornarListaRecursos(), projetoEscolhido);
+			if(recursoEscolhido == null) {
 				return;
 			}
 
-			Recurso recursoEscolhido = projetoEscolhido.retornarRecurso(posicaoRecurso);
 			projetoEscolhido.excluirRecurso(recursoEscolhido);
 
 			EntradaSaidaDados.mostrarMensagem("Recurso excluído com sucesso!", "Sucesso");
@@ -361,12 +355,10 @@ public class Menu {
 	private static void alterarStatusProjeto() {
 		String titulo = "Alterar status do projeto";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			Integer statusEscolhido = EntradaSaidaDados.escolherStatusProjeto(titulo);
 			if(statusEscolhido == null) {
@@ -388,12 +380,10 @@ public class Menu {
 	private static void alterarDataFinalProjeto() {
 		String titulo = "Alterar data final do projeto";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
-
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
 
 			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", titulo);
 			if(novaDataFinal == null) {
@@ -415,16 +405,14 @@ public class Menu {
 	private static void alterarStatusTarefa() {
 		String titulo = "Alterar status da tarefa";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
 
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
-
 			if(projetoEscolhido.retornarListaTarefas() == null) {
 				int resposta = JOptionPane.showConfirmDialog(null,
-						"Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?", "Aviso", JOptionPane.YES_NO_OPTION);
+						MENSAGEM_SEM_TAREFAS, "Aviso", JOptionPane.YES_NO_OPTION);
 
 				if(resposta == JOptionPane.YES_NO_OPTION) {
 					adicionarTarefa(projetoEscolhido);
@@ -477,16 +465,14 @@ public class Menu {
 				}
 			} while(!tipoValido);
 
-			Integer posicaoProjeto= EntradaSaidaDados.escolherProjeto( titulo, GestaoProjetos.retornarListaProjetos());
-			if(posicaoProjeto == null) {
+			Projeto projetoEscolhido = EntradaSaidaDados.escolherProjeto(titulo, GestaoProjetos.retornarListaProjetos());
+			if(projetoEscolhido == null) {
 				return;
 			}
 
-			Projeto projetoEscolhido = GestaoProjetos.retornarProjeto(posicaoProjeto);
-
 			if(projetoEscolhido.getListaDePessoas().isEmpty()) {
 				if(EntradaSaidaDados.retornarConfirmacao(
-						"Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?", "Aviso") == JOptionPane.YES_OPTION) {
+						MENSAGEM_SEM_PESSOAS, "Aviso") == JOptionPane.YES_OPTION) {
 					adicionarPessoa(projetoEscolhido);
 				}
 				return;

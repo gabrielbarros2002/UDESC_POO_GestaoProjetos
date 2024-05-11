@@ -50,7 +50,7 @@ public class RelatorioGeral extends Relatorio{
 	public String gerarRelatorioDeRecursosNoProjeto(Projeto projeto) {
 		String dados = "Recursos do projeto " + projeto.getTitulo();
 		for(Recurso recurso : projeto.getListaDeRecursos()) {
-			dados += "\n- " + recurso.getNome() + ": " + recurso.getValor();
+			dados += "\n- " + recurso.getNome() + ": " + String.format("R$ %.2f", recurso.getValor());
 		}
 		dados += gerarRodapeRelatorio();
 		return dados;
