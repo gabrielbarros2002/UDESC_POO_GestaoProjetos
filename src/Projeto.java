@@ -1,5 +1,3 @@
-import java.awt.Component;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +8,12 @@ public class Projeto {
 	
 	private String titulo;
 	private String cliente;
-	private ArrayList<Recurso> listaDeRecursos = new ArrayList<Recurso>();
-	private ArrayList<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
+	private ArrayList<Recurso> listaDeRecursos = new ArrayList<>();
+	private ArrayList<Pessoa> listaDePessoas = new ArrayList<>();
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
-	private ArrayList<Tarefa> listaDeTarefas = new ArrayList<Tarefa>();
-	private ArrayList<TarefaAlocada> listaDeTarefasAlocadas = new ArrayList<TarefaAlocada>();
+	private ArrayList<Tarefa> listaDeTarefas = new ArrayList<>();
+	private ArrayList<TarefaAlocada> listaDeTarefasAlocadas = new ArrayList<>();
 	private int status;
 	
 	Projeto (String titulo, String cliente, LocalDate dataInicial, LocalDate dataFinal){
@@ -135,7 +133,7 @@ public class Projeto {
 	}
 
 	public JComboBox<String> retornarListaTarefas() {
-		JComboBox<String> lista = new JComboBox<String>();
+		JComboBox<String> lista = new JComboBox<>();
 
 		if(listaDeTarefas.isEmpty()) {
 			return null;
@@ -148,7 +146,7 @@ public class Projeto {
 	}
 
 	public JComboBox<String> retornarListaPessoas() {
-		JComboBox<String> lista = new JComboBox<String>();
+		JComboBox<String> lista = new JComboBox<>();
 
 		if(listaDePessoas.isEmpty()) {
 			return null;
@@ -161,7 +159,7 @@ public class Projeto {
 	}
 
 	public JComboBox<String> retornarListaRecursos() {
-		JComboBox<String> lista = new JComboBox<String>();
+		JComboBox<String> lista = new JComboBox<>();
 
 		if(listaDeRecursos.isEmpty()) {
 			return null;

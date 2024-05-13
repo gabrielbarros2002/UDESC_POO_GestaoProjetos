@@ -4,7 +4,7 @@ import javax.swing.JComboBox;
 
 public class GestaoProjetos {
 	
-	private static ArrayList<Projeto> listaDeProjetos = new ArrayList<Projeto>();
+	private static ArrayList<Projeto> listaDeProjetos = new ArrayList<>();
 	
 	public static void adicionarProjeto(Projeto projeto) {
 		listaDeProjetos.add(projeto);
@@ -13,10 +13,9 @@ public class GestaoProjetos {
 	public static ArrayList<Projeto> getListaDeProjetos(){
 		return listaDeProjetos;
 	}
-	
-	
-	public static JComboBox retornarListaProjetos() {
-		JComboBox<String> lista = new JComboBox<String>();
+
+	public static JComboBox<String> retornarListaProjetos() {
+		JComboBox<String> lista = new JComboBox<>();
 		for(Projeto p : listaDeProjetos) {
 			lista.addItem(p.getTitulo());
 		}

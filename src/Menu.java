@@ -26,7 +26,7 @@ public class Menu {
 				"Sair"
 		};
 		String resposta;
-		Boolean sair = false;
+		boolean sair = false;
 
 		do {
 			resposta = (String) JOptionPane.showInputDialog(
@@ -69,10 +69,7 @@ public class Menu {
 				case "Gerar relatório":
 					gerarRelatorio();
 					break;
-				case "Sair":
-					sair = sair();
-					break;
-				case null:
+                case null:
 					sair = sair();
 					break;
 				default:
@@ -331,7 +328,7 @@ public class Menu {
 			}
 
 			if(projetoEscolhido.retornarListaRecursos() == null) {
-				EntradaSaidaDados.mostrarMensagem("Não há recursos para excluir!", "Aviso");
+				EntradaSaidaDados.mostrarMensagemAviso("Não há recursos para excluir!");
 				return;
 			}
 
@@ -448,7 +445,7 @@ public class Menu {
 		String titulo = "Gerar relatório";
 		if(GestaoProjetos.retornarListaProjetos().getItemCount() > 0) {
 			Integer tipo;
-			Boolean tipoValido = false;
+			boolean tipoValido = false;
 			do{
 				tipo = EntradaSaidaDados.retornarInteiro("Informe o tipo de relatório desejado:"
 								+ "\n 1 - Dados gerais do projeto"
@@ -464,7 +461,7 @@ public class Menu {
 					tipoValido = true;
 				}
 				if(!tipoValido) {
-					EntradaSaidaDados.mostrarMensagem(MENSAGEM_RELATORIO_INVALIDO, "Aviso");
+					EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_RELATORIO_INVALIDO);
 				}
 			} while(!tipoValido);
 
@@ -516,11 +513,7 @@ public class Menu {
 	}
 
 	public static Boolean sair() {
-		if(EntradaSaidaDados.retornarConfirmacao(MENSAGEM_SAIR, "Sair") == JOptionPane.YES_OPTION) {
-			return true;
-		} else {
-			return false;
-		}
+        return EntradaSaidaDados.retornarConfirmacao(MENSAGEM_SAIR, "Sair") == JOptionPane.YES_OPTION;
 	}
 
 }

@@ -2,14 +2,12 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
 
 public class EntradaSaidaDados {
 
 	public static final String MENSAGEM_DATA_INVALIDA = "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.";
 
-	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	// MÉTODOS DE RETORNO
 
@@ -94,9 +92,14 @@ public class EntradaSaidaDados {
 
 	// MÉTODOS DE PRINT
 
-	// Mensagem
+	// Mensagem de informação
 	public static void mostrarMensagem(String mensagem, String titulo) {
 		JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	// Mensagem de aviso
+	public static void mostrarMensagemAviso(String mensagem) {
+		JOptionPane.showMessageDialog(null, mensagem, "Aviso", JOptionPane.WARNING_MESSAGE);
 	}
 
 	// Relatório
