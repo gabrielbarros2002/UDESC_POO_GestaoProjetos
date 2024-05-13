@@ -24,6 +24,9 @@ public class EntradaSaidaDados {
 		if (retorno == null) {
 			return null;
 		}
+		if (retorno.isEmpty()) {
+			return -1;
+		}
 		return Integer.parseInt(retorno);
 	}
 
@@ -98,7 +101,7 @@ public class EntradaSaidaDados {
 
 	// Relatório
 	public static void mostrarRelatorio(String dadosRelatorio, String tipoRelatorio) {
-		JOptionPane.showMessageDialog(null, dadosRelatorio, "Relatório " + tipoRelatorio, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, dadosRelatorio, "Relatório " + tipoRelatorio, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	// MÉTODOS DE ESCOLHA
@@ -132,16 +135,16 @@ public class EntradaSaidaDados {
 	}
 
 	// Prioridade
-	public static Integer escolherPrioridade() {
+	public static Integer escolherPrioridade(String titulo) {
 		String[] lista = {"Nível 1", "Nível 2", "Nível 3", "Nível 4", "Nível 5"};
 		JComboBox<String> listaDePrioridade = new JComboBox<>(lista);
 
-		return retornarOpcao("Selecione a prioridade:", "Adicionar Tarefa", listaDePrioridade);
+		return retornarOpcao("Selecione a prioridade:", titulo, listaDePrioridade);
 	}
 
 	// Status de projeto
 	public static Integer escolherStatusProjeto(String titulo) {
-		String[] lista = {"1 - Em andamento", "2 - Finalizado"};
+		String[] lista = {"1 - Em andamento", "2 - Finalizado", "3 - Cancelado"};
 		JComboBox<String> listaStatus = new JComboBox<>(lista);
 
 		Integer opcao = retornarOpcao("Selecione o status do projeto:", titulo, listaStatus);

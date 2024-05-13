@@ -9,6 +9,7 @@ public class Menu {
 	public static final String MENSAGEM_SEM_TAREFAS = "Não há tarefas cadastradas.\nDeseja cadastrar uma tarefa para este projeto?";
 	public static final String MENSAGEM_SEM_PESSOAS = "Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?";
 	public static final String MENSAGEM_SAIR = "Tem certeza que deseja sair?\nSeus dados serão perdidos";
+	public static final String MENSAGEM_RELATORIO_INVALIDO = "Tipo de relatório inválido\nFavor digitar um tipo de relatório válido";
 
 	public static void exibirMenu() {
 		String[] lista = {
@@ -132,7 +133,7 @@ public class Menu {
 				return;
 			}
 
-			Integer prioridade = EntradaSaidaDados.escolherPrioridade();
+			Integer prioridade = EntradaSaidaDados.escolherPrioridade(titulo);
 			if(prioridade == null) {
 				return;
 			}
@@ -163,7 +164,7 @@ public class Menu {
 			return;
 		}
 
-		Integer prioridade = EntradaSaidaDados.escolherPrioridade();
+		Integer prioridade = EntradaSaidaDados.escolherPrioridade(titulo);
 		if(prioridade == null) {
 			return;
 		}
@@ -456,12 +457,14 @@ public class Menu {
 								+ "\n 4 - Recursos alocados de um projeto"
 								+ "\n 5 - Tarefas finalizadas de um projeto",
 						"Relatório");
-
+				if(tipo == null) {
+					return;
+				}
 				if(tipo >= 1 && tipo <= 5) {
 					tipoValido = true;
 				}
-				if(tipo == null) {
-					return;
+				if(!tipoValido) {
+					EntradaSaidaDados.mostrarMensagem(MENSAGEM_RELATORIO_INVALIDO, "Aviso");
 				}
 			} while(!tipoValido);
 
