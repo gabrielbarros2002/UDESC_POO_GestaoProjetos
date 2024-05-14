@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 public class EntradaSaidaDados {
 
 	public static final String MENSAGEM_DATA_INVALIDA = "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.";
+	public static final String MENSAGEM_INPUT_VAZIO = "Por favor, insira pelo menos um caracter.";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -13,28 +14,57 @@ public class EntradaSaidaDados {
 
 	// Texto
 	public static String retornarTexto(String mensagem, String titulo) {
-		return JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+		String retorno;
+		do {
+			retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+			if (retorno == null) {
+				return null;
+			}
+			if (retorno.isEmpty()) {
+				mostrarMensagemAviso(MENSAGEM_INPUT_VAZIO);
+			}
+		} while (retorno.isEmpty());
+		return retorno;
 	}
 
 	// Inteiro
 	public static Integer retornarInteiro(String mensagem, String titulo) {
-		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
-		if (retorno == null) {
-			return null;
-		}
-		if (retorno.isEmpty()) {
-			return -1;
-		}
-		return Integer.parseInt(retorno);
+		String retorno;
+		do {
+			retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+			if (retorno == null) {
+				return null;
+			}
+			if (retorno.isEmpty()) {
+				mostrarMensagemAviso(MENSAGEM_INPUT_VAZIO);
+			} else {
+				try {
+					return Integer.parseInt(retorno);
+				} catch (NumberFormatException e) {
+					mostrarMensagemAviso("Por favor, insira um número inteiro válido.");
+				}
+			}
+		} while (true);
 	}
 
 	// Real
 	public static Double retornarReal(String mensagem, String titulo) {
-		String retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
-		if (retorno == null) {
-			return null;
-		}
-		return Double.parseDouble(retorno);
+		String retorno;
+		do {
+			retorno = JOptionPane.showInputDialog(null, mensagem, titulo, JOptionPane.QUESTION_MESSAGE);
+			if (retorno == null) {
+				return null;
+			}
+			if (retorno.isEmpty()) {
+				mostrarMensagemAviso(MENSAGEM_INPUT_VAZIO);
+			} else {
+				try {
+					return Double.parseDouble(retorno);
+				} catch (NumberFormatException e) {
+					mostrarMensagemAviso("Por favor, insira um número real válido.");
+				}
+			}
+		} while (true);
 	}
 
 	// Confirmação
