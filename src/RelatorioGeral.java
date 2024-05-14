@@ -31,7 +31,7 @@ public class RelatorioGeral extends Relatorio{
 	public String gerarRelatorioDeTarefasAlocadas(Projeto projeto) {
 		String dados = "Tarefas alocadas do projeto " + projeto.getTitulo();
 		if(projeto.getListaDeTarefasAlocadas().isEmpty()) {
-			dados += "\n\n-- Projeto sem tarefas alocadas --";
+			dados += "\n-- Projeto sem tarefas alocadas --";
 		} else {
 			for(TarefaAlocada tarefaAlocada : projeto.getListaDeTarefasAlocadas()) {
 				dados += "\n\n " + tarefaAlocada.getTarefa().getNome() + ":";
@@ -56,7 +56,7 @@ public class RelatorioGeral extends Relatorio{
 	public String gerarRelatorioDeRecursosNoProjeto(Projeto projeto) {
 		String dados = "Recursos do projeto " + projeto.getTitulo();
 		if(projeto.getListaDeRecursos().isEmpty()) {
-			dados += "\n\n-- Projeto sem recursos --";
+			dados += "\n-- Projeto sem recursos --";
 		} else {
 			for(Recurso recurso : projeto.getListaDeRecursos()) {
 				dados += "\n- " + recurso.getNome() + ": " + String.format("R$ %.2f", recurso.getValor());
@@ -69,12 +69,12 @@ public class RelatorioGeral extends Relatorio{
 	public String gerarRelatorioDeTarefasFinalizadasDoProjeto(Projeto projeto) {
 		String dados = "Tarefas finalizadas do projeto " + projeto.getTitulo();
 		if(projeto.getListaDeTarefas().isEmpty()) {
-			dados += "\n\n-- Projeto sem tarefas --";
+			dados += "\n-- Projeto sem tarefas --";
 		} else {
 			for(Tarefa tarefa : projeto.getListaDeTarefas()) {
 				if(tarefa.getStatus() == 2) {
 					dados += "\n- " + tarefa.getNome();
-					dados += "\n   Prazo: " + dateTimeFormatter.format(tarefa.getPrazo());
+					dados += "\n   Prazo: " + dateFormatter.format(tarefa.getPrazo());
 					dados += "\n   Prioridade: " + tarefa.getPrioridade();
 				}
 			}

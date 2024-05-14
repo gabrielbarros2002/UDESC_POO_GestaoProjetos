@@ -247,12 +247,11 @@ public class Menu {
 			}
 
 			if(projetoEscolhido.retornarListaTarefas() != null) {
-				Integer posicaoTarefa = EntradaSaidaDados.escolherTarefa(titulo, projetoEscolhido.retornarListaTarefas());
-				if(posicaoTarefa == null) {
+				tarefaEscolhida = EntradaSaidaDados.escolherTarefa(titulo, projetoEscolhido);
+				if(tarefaEscolhida == null) {
 					return;
 				}
 
-				tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 			} else {
 				if(EntradaSaidaDados.retornarConfirmacao(
 						MENSAGEM_SEM_TAREFAS, "Aviso") == JOptionPane.YES_OPTION) {
@@ -416,12 +415,10 @@ public class Menu {
 					adicionarTarefa(projetoEscolhido);
 				}
 			} else {
-				Integer posicaoTarefa = EntradaSaidaDados.escolherTarefa(titulo, projetoEscolhido.retornarListaTarefas());
-				if(posicaoTarefa == null) {
+				Tarefa tarefaEscolhida = EntradaSaidaDados.escolherTarefa(titulo, projetoEscolhido);
+				if(tarefaEscolhida == null) {
 					return;
 				}
-
-				Tarefa tarefaEscolhida = projetoEscolhido.retornarTarefa(posicaoTarefa);
 
 				Integer statusEscolhido = EntradaSaidaDados.escolherStatusTarefa(titulo);
 				if(statusEscolhido == null) {

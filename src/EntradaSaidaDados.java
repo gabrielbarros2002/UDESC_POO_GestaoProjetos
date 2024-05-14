@@ -119,8 +119,13 @@ public class EntradaSaidaDados {
 	}
 
 	// Tarefa
-	public static Integer escolherTarefa(String titulo, JComboBox<String> listaDeTarefas) {
-		return retornarOpcao("Selecione a tarefa:", titulo, listaDeTarefas);
+	public static Tarefa escolherTarefa(String titulo, Projeto projetoEscolhido) {
+		Integer posicaoTarefa = retornarOpcao("Selecione a tarefa:", titulo, projetoEscolhido.retornarListaTarefas());
+		if(posicaoTarefa == null) {
+			return null;
+		}
+
+		return projetoEscolhido.retornarTarefa(posicaoTarefa);
 	}
 
 	// Pessoa

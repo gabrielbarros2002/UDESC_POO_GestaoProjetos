@@ -152,7 +152,7 @@ public class Projeto {
 			return null;
 		}
 		for(Pessoa p : this.listaDePessoas) {
-			lista.addItem(p.getNome());
+			lista.addItem(p.getNome() + " " + p.getSobrenome() + ": " + p.getCargo().getNome());
 		}
 
 		return lista;
