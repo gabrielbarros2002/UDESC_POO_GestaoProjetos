@@ -159,8 +159,13 @@ public class EntradaSaidaDados {
 	}
 
 	// Pessoa
-	public static Integer escolherPessoa(String titulo, JComboBox<String> listaDePessoas) {
-		return retornarOpcao("Selecione a pessoa:", titulo, listaDePessoas);
+	public static Pessoa escolherPessoa(String titulo, Projeto projetoEscolhido) {
+		Integer posicaoPessoa = retornarOpcao("Selecione a pessoa:", titulo, projetoEscolhido.retornarListaTarefas());
+		if(posicaoPessoa == null) {
+			return null;
+		}
+
+		return projetoEscolhido.retornarPessoa(posicaoPessoa);
 	}
 
 	// Recurso

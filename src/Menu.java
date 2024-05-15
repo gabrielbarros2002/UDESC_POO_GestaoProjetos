@@ -261,12 +261,11 @@ public class Menu {
 			}
 
 			if(projetoEscolhido.retornarListaPessoas() != null) {
-				Integer posicaoPessoa = EntradaSaidaDados.escolherPessoa(titulo, projetoEscolhido.retornarListaPessoas());
-				if(posicaoPessoa == null) {
+				pessoaEscolhida = EntradaSaidaDados.escolherPessoa(titulo, projetoEscolhido);
+				if(pessoaEscolhida == null) {
 					return;
 				}
 
-				pessoaEscolhida = projetoEscolhido.retornarPessoa(posicaoPessoa);
 			} else {
 				if(EntradaSaidaDados.retornarConfirmacao(
 						MENSAGEM_SEM_PESSOAS, "Aviso") == JOptionPane.YES_OPTION) {
@@ -475,12 +474,10 @@ public class Menu {
 				return;
 			}
 
-			Integer posicaoSolicitante = EntradaSaidaDados.escolherPessoa(titulo, projetoEscolhido.retornarListaPessoas());
-			if(posicaoSolicitante == null) {
+			Pessoa solicitante = EntradaSaidaDados.escolherPessoa(titulo, projetoEscolhido);
+			if(solicitante == null) {
 				return;
 			}
-
-			Pessoa solicitante = projetoEscolhido.retornarPessoa(posicaoSolicitante);
 
 			LocalDateTime dataSolcitacao = LocalDateTime.now();
 			RelatorioGeral relatorio = new RelatorioGeral(dataSolcitacao, solicitante);
