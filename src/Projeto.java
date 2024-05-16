@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JComboBox;
 
@@ -122,12 +123,12 @@ public class Projeto {
 			}
 		}
 
-		List<Pessoa> pessoaList = new ArrayList<>();
+		Set<Pessoa> pessoaSet = new HashSet<>();
 		if (tarefaDesejada != null) {
-			tarefaDesejada.getPessoaList().add(pessoa);
+			tarefaDesejada.getPessoaSet().add(pessoa);
 		} else {
-			pessoaList.add(pessoa);
-			TarefaAlocada tarefaAlocada = new TarefaAlocada(pessoaList, tarefa);
+			pessoaSet.add(pessoa);
+			TarefaAlocada tarefaAlocada = new TarefaAlocada(pessoaSet, tarefa);
 			this.listaDeTarefasAlocadas.add(tarefaAlocada);
 		}
 	}

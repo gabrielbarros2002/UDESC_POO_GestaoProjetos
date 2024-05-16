@@ -160,7 +160,7 @@ public class EntradaSaidaDados {
 
 	// Pessoa
 	public static Pessoa escolherPessoa(String titulo, Projeto projetoEscolhido) {
-		Integer posicaoPessoa = retornarOpcao("Selecione a pessoa:", titulo, projetoEscolhido.retornarListaTarefas());
+		Integer posicaoPessoa = retornarOpcao("Selecione a pessoa:", titulo, projetoEscolhido.retornarListaPessoas());
 		if(posicaoPessoa == null) {
 			return null;
 		}
@@ -169,8 +169,8 @@ public class EntradaSaidaDados {
 	}
 
 	// Recurso
-	public static Recurso escolherRecurso(String titulo, JComboBox<String> listaDeRecursos, Projeto projeto) {
-		Integer posicaoRecurso = retornarOpcao("Selecione o recurso:", titulo, listaDeRecursos);
+	public static Recurso escolherRecurso(String titulo, Projeto projeto) {
+		Integer posicaoRecurso = retornarOpcao("Selecione o recurso:", titulo, projeto.retornarListaRecursos());
 		if(posicaoRecurso == null) {
 			return null;
 		}

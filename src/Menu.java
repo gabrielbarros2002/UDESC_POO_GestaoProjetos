@@ -331,7 +331,7 @@ public class Menu {
 			}
 
 			Recurso recursoEscolhido = EntradaSaidaDados.escolherRecurso(
-					titulo, projetoEscolhido.retornarListaRecursos(), projetoEscolhido);
+					titulo, projetoEscolhido);
 			if(recursoEscolhido == null) {
 				return;
 			}

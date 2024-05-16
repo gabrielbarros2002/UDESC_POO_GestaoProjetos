@@ -35,8 +35,8 @@ public class RelatorioGeral extends Relatorio{
 		} else {
 			for(TarefaAlocada tarefaAlocada : projeto.getListaDeTarefasAlocadas()) {
 				dados += "\n\n " + tarefaAlocada.getTarefa().getNome() + ":";
-				for(Pessoa pessoa : tarefaAlocada.getPessoaList()) {
-					dados += "\n  - " + pessoa.getNome() + " " + pessoa.getSobrenome() + " | " + pessoa.getCargo().getNome();
+				for(Pessoa pessoa : tarefaAlocada.getPessoaSet()) {
+					dados += "\n  - " + pessoa.getNome() + " " + pessoa.getSobrenome() + ": " + pessoa.getCargo().getNome();
 				}
 			}
 		}
@@ -45,7 +45,7 @@ public class RelatorioGeral extends Relatorio{
 	}
 
 	public String gerarRelatorioDePessoasNoProjeto(Projeto projeto) {
-		String dados = "Pessoas do projeto " + projeto.getTitulo();
+		String dados = "Pessoas do projeto " + projeto.getTitulo() + "\n";
 		for(Pessoa pessoa : projeto.getListaDePessoas()) {
 			dados += "\n- " + pessoa.getNome() + " " + pessoa.getSobrenome() + ": " + pessoa.getCargo().getNome();
 		}
@@ -54,7 +54,7 @@ public class RelatorioGeral extends Relatorio{
 	}
 
 	public String gerarRelatorioDeRecursosNoProjeto(Projeto projeto) {
-		String dados = "Recursos do projeto " + projeto.getTitulo();
+		String dados = "Recursos do projeto " + projeto.getTitulo() + "\n";
 		if(projeto.getListaDeRecursos().isEmpty()) {
 			dados += "\n-- Projeto sem recursos --";
 		} else {
@@ -73,9 +73,9 @@ public class RelatorioGeral extends Relatorio{
 		} else {
 			for(Tarefa tarefa : projeto.getListaDeTarefas()) {
 				if(tarefa.getStatus() == 2) {
-					dados += "\n- " + tarefa.getNome();
+					dados += "\n\n- " + tarefa.getNome();
 					dados += "\n   Prazo: " + dateFormatter.format(tarefa.getPrazo());
-					dados += "\n   Prioridade: " + tarefa.getPrioridade();
+					dados += "\n   Prioridade: Nível" + (tarefa.getPrioridade() + 1);
 				}
 			}
 		}

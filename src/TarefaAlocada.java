@@ -1,16 +1,17 @@
 import java.util.List;
+import java.util.Set;
 
 public class TarefaAlocada {
 	
-	private List<Pessoa> pessoaList;
+	private Set<Pessoa> pessoaSet;
 	private Tarefa tarefa;
 
-	public List<Pessoa> getPessoaList() {
-		return pessoaList;
+	public Set<Pessoa> getPessoaSet() {
+		return pessoaSet;
 	}
 
-	public void setPessoaList(List<Pessoa> pessoaList) {
-		this.pessoaList = pessoaList;
+	public void setPessoaSet(Set<Pessoa> pessoaSet) {
+		this.pessoaSet = pessoaSet;
 	}
 
 	public Tarefa getTarefa() {
@@ -21,8 +22,8 @@ public class TarefaAlocada {
 		this.tarefa = tarefa;
 	}
 	
-	TarefaAlocada(List<Pessoa> pessoaList, Tarefa tarefa){
-		this.pessoaList = pessoaList;
+	TarefaAlocada(Set<Pessoa> pessoaList, Tarefa tarefa){
+		this.pessoaSet = pessoaList;
 		this.tarefa = tarefa;
 	}
 
