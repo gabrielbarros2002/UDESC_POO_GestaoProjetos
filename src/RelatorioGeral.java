@@ -29,14 +29,21 @@ public class RelatorioGeral extends Relatorio{
 	}
 	
 	public String gerarRelatorioDeTarefasAlocadas(Projeto projeto) {
-		String dados = "Tarefas alocadas do projeto " + projeto.getTitulo();
+		String dados = "Tarefas do projeto " + projeto.getTitulo();
 		if(projeto.getListaDeTarefasAlocadas().isEmpty()) {
 			dados += "\n-- Projeto sem tarefas alocadas --";
 		} else {
-			for(TarefaAlocada tarefaAlocada : projeto.getListaDeTarefasAlocadas()) {
-				dados += "\n\n " + tarefaAlocada.getTarefa().getNome() + ":";
-				for(Pessoa pessoa : tarefaAlocada.getPessoaSet()) {
-					dados += "\n  - " + pessoa.getNome() + " " + pessoa.getSobrenome() + ": " + pessoa.getCargo().getNome();
+			for(Tarefa tarefa : projeto.getListaDeTarefas()) {
+				dados += "\n\n- " + tarefa.getNome() + ":";
+				dados += "\n   Prazo: " + dateFormatter.format(tarefa.getPrazo());
+				dados += "\n   Prioridade: Nível" + (tarefa.getPrioridade() + 1);
+				dados += "\n   Responsáveis:\n";
+				for (TarefaAlocada tarefaAlocada : projeto.getListaDeTarefasAlocadas()) {
+					if (tarefaAlocada.getTarefa() == tarefa) {
+						for(Pessoa pessoa : tarefaAlocada.getPessoaSet()) {
+							dados += "\n   - " + pessoa.getNome() + " " + pessoa.getSobrenome() + ": " + pessoa.getCargo().getNome();
+						}
+					}
 				}
 			}
 		}
