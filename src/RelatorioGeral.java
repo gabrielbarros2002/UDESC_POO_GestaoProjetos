@@ -36,8 +36,8 @@ public class RelatorioGeral extends Relatorio{
 			for(Tarefa tarefa : projeto.getListaDeTarefas()) {
 				dados += "\n\n- " + tarefa.getNome() + ":";
 				dados += "\n   Prazo: " + dateFormatter.format(tarefa.getPrazo());
-				dados += "\n   Prioridade: Nível" + (tarefa.getPrioridade() + 1);
-				dados += "\n   Responsáveis:\n";
+				dados += "\n   Prioridade: Nível " + (tarefa.getPrioridade() + 1);
+				dados += "\n   Responsáveis:";
 				for (TarefaAlocada tarefaAlocada : projeto.getListaDeTarefasAlocadas()) {
 					if (tarefaAlocada.getTarefa() == tarefa) {
 						for(Pessoa pessoa : tarefaAlocada.getPessoaSet()) {

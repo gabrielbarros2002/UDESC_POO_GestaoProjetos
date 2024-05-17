@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 
 public class EntradaSaidaDados {
 
-	public static final String MENSAGEM_DATA_INVALIDA = "Formato de data inválido! Por favor, insira no formato DD/MM/AAAA.";
+	public static final String MENSAGEM_DATA_INVALIDA = "Formato de data inválido! Por favor, insira no formato dd/MM/aaaa.";
 	public static final String MENSAGEM_INPUT_VAZIO = "Por favor, insira pelo menos um caracter.";
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

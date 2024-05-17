@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JOptionPane;
 
@@ -10,6 +11,14 @@ public class Menu {
 	public static final String MENSAGEM_SEM_PESSOAS = "Não há pessoas cadastradas.\nDeseja cadastrar uma pessoa para este projeto?";
 	public static final String MENSAGEM_SAIR = "Tem certeza que deseja sair?\nSeus dados serão perdidos";
 	public static final String MENSAGEM_RELATORIO_INVALIDO = "Tipo de relatório inválido\nFavor digitar um tipo de relatório válido";
+	public static final String MENSAGEM_DATA_ANTERIOR_PROJETO = "A data final do projeto não pode ser anterior à data inicial!\n" +
+			"Favor inserir uma data válida.\nData inicial do projeto: ";
+	public static final String MENSAGEM_PRAZO_ANTERIOR_TAREFA = "O prazo da tarefa não pode ser anterior à data inicial do projeto!\n" +
+			"Favor inserir uma data válida.\nData inicial do projeto: ";
+	public static final String MENSAGEM_PRAZO_POSTERIOR_TAREFA = "O prazo da tarefa não pode ser posterior à data final do projeto!\n" +
+			"Favor inserir uma data válida.\nData final do projeto: ";
+
+	public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public static void exibirMenu() {
 		String[] lista = {
@@ -99,10 +108,15 @@ public class Menu {
 		}
 
 		LocalDate dataFinal;
-		dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (dd/MM/aaaa)", titulo);
-		if(dataFinal == null) {
-			return;
-		}
+		do {
+			dataFinal = EntradaSaidaDados.retornarData("Informe a data final do projeto (dd/MM/aaaa)", titulo);
+			if(dataFinal == null) {
+				return;
+			}
+			if(dataFinal.isBefore(dataInicial)) {
+				EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_DATA_ANTERIOR_PROJETO + dateFormatter.format(dataInicial));
+			}
+		} while (dataFinal.isBefore(dataInicial));
 
 		Projeto projeto = new Projeto(tituloProjeto, cliente, dataInicial, dataFinal);
 		GestaoProjetos.adicionarProjeto(projeto);
@@ -125,10 +139,18 @@ public class Menu {
 			}
 
 			LocalDate prazo;
-			prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", titulo);
-			if(prazo == null) {
-				return;
-			}
+			do {
+				prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (dd/MM/aaaa)", titulo);
+				if(prazo == null) {
+					return;
+				}
+				if (prazo.isBefore(projetoEscolhido.getDataInicial())) {
+					EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_PRAZO_ANTERIOR_TAREFA + dateFormatter.format(projetoEscolhido.getDataInicial()));
+				}
+				if (prazo.isAfter(projetoEscolhido.getDataFinal())) {
+					EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_PRAZO_POSTERIOR_TAREFA + dateFormatter.format(projetoEscolhido.getDataFinal()));
+				}
+			} while (prazo.isBefore(projetoEscolhido.getDataInicial()) || prazo.isAfter(projetoEscolhido.getDataFinal()));
 
 			Integer prioridade = EntradaSaidaDados.escolherPrioridade(titulo);
 			if(prioridade == null) {
@@ -156,10 +178,18 @@ public class Menu {
 		}
 
 		LocalDate prazo;
-		prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (DD/MM/AAAA)", titulo);
-		if(prazo == null) {
-			return;
-		}
+		do {
+			prazo = EntradaSaidaDados.retornarData("Informe o prazo da tarefa (dd/MM/aaaa)", titulo);
+			if(prazo == null) {
+				return;
+			}
+			if (prazo.isBefore(projeto.getDataInicial())) {
+				EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_PRAZO_ANTERIOR_TAREFA + dateFormatter.format(projeto.getDataInicial()));
+			}
+			if (prazo.isAfter(projeto.getDataFinal())) {
+				EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_PRAZO_POSTERIOR_TAREFA + dateFormatter.format(projeto.getDataFinal()));
+			}
+		} while (prazo.isBefore(projeto.getDataInicial()) || prazo.isAfter(projeto.getDataFinal()));
 
 		Integer prioridade = EntradaSaidaDados.escolherPrioridade(titulo);
 		if(prioridade == null) {
@@ -381,10 +411,16 @@ public class Menu {
 				return;
 			}
 
-			LocalDate novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data", titulo);
-			if(novaDataFinal == null) {
-				return;
-			}
+			LocalDate novaDataFinal;
+			do {
+				novaDataFinal = EntradaSaidaDados.retornarData("Informe a nova data (dd/MM/aaaa)", titulo);
+				if(novaDataFinal == null) {
+					return;
+				}
+				if(novaDataFinal.isBefore(projetoEscolhido.getDataInicial())) {
+					EntradaSaidaDados.mostrarMensagemAviso(MENSAGEM_DATA_ANTERIOR_PROJETO + dateFormatter.format(projetoEscolhido.getDataInicial()));
+				}
+			} while (novaDataFinal.isBefore(projetoEscolhido.getDataInicial()));
 
 			projetoEscolhido.setDataFinal(novaDataFinal);
 
@@ -445,9 +481,9 @@ public class Menu {
 			do{
 				tipo = EntradaSaidaDados.retornarInteiro("Informe o tipo de relatório desejado:"
 								+ "\n 1 - Dados gerais do projeto"
-								+ "\n 2 - Tarefas alocadas de um projeto"
+								+ "\n 2 - Tarefas de um projeto"
 								+ "\n 3 - Pessoas atribuídas a um projeto"
-								+ "\n 4 - Recursos alocados de um projeto"
+								+ "\n 4 - Recursos alocados em um projeto"
 								+ "\n 5 - Tarefas finalizadas de um projeto",
 						"Relatório");
 				if(tipo == null) {
@@ -487,16 +523,16 @@ public class Menu {
 					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDadosGerais(projetoEscolhido), "Geral");
 					break;
 				case 2:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido), "de Tarefas Alocadas");
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasAlocadas(projetoEscolhido), "de Tarefas do Projeto");
 					break;
 				case 3:
 					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDePessoasNoProjeto(projetoEscolhido), "de Pessoas no Projeto");
 					break;
 				case 4:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeRecursosNoProjeto(projetoEscolhido), "de Recursos no Projeto");
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeRecursosNoProjeto(projetoEscolhido), "de Recursos do Projeto");
 					break;
 				case 5:
-					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasFinalizadasDoProjeto(projetoEscolhido), "de Tarefas Finalizadas no Projeto");
+					EntradaSaidaDados.mostrarRelatorio(relatorio.gerarRelatorioDeTarefasFinalizadasDoProjeto(projetoEscolhido), "de Tarefas Finalizadas do Projeto");
 					break;
 			}
 		} else {
