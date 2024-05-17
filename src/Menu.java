@@ -329,7 +329,7 @@ public class Menu {
 				return;
 			}
 
-			Double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso", titulo);
+			Double valor = EntradaSaidaDados.retornarReal("Informe o preço do recurso.\n(Use ponto como separador de decimal)", titulo);
 			if(valor == null) {
 				return;
 			}
